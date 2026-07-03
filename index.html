@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación de Boda - J&V</title>
+    <style>
+        /* ============================================= */
+        /* RESET Y ESTILOS BASE                          */
+        /* ============================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @font-face {
+            font-family: 'Papillion';
+            src: url('Papillion.ttf') format('truetype');
+            font-weight: normal;
+            font-style: italic;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: #1a0a0a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            overflow: hidden;
+        }
+
+        /* ============================================= */
+        /* VIDEO - SIEMPRE VISIBLE COMO FONDO            */
+        /* ============================================= */
+        #videoContainer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #00000000;
+        }
+
+        #weddingVideo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #00000000;
+            
+            /* 🔥 AUMENTAR NITIDEZ DEL VIDEO */
+            filter: 
+                contrast(1.08)
+                saturate(1.10)
+                brightness(0.98)
+                drop-shadow(0 0 0.5px rgba(0, 0, 0, 0));
+            
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+
+        /* ============================================= */
+        /* PORTADA - SOBREPUESTA AL VIDEO                */
+        /* ============================================= */
+        #startScreen {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0);
+            z-index: 10;
+            cursor: pointer;
+            transition: opacity 0.6s ease;
+        }
+
+        /* Ocultar portada */
+        #startScreen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .start-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 20px;
+            max-width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        /* ============================================= */
+        /* 🔥 DESVANECIMIENTO RÁPIDO DE LAS PALABRAS     */
+        /* ============================================= */
+        .start-content.fade-out .welcome-text,
+        .start-content.fade-out .initials,
+        .start-content.fade-out .click-hint {
+            animation: fadeOutQuick 0.4s ease forwards;
+        }
+
+        .start-content.fade-out .initials {
+            animation-delay: 0.1s;
+        }
+
+        .start-content.fade-out .click-hint {
+            animation-delay: 0.2s;
+        }
+
+        @keyframes fadeOutQuick {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+        }
+
+        /* ============================================= */
+        /* 🔥 LETRAS CON TEXTURA DORADO.JPG              */
+        /* ============================================= */
+        .welcome-text {
+            font-family: 'Papillion', 'Champignon', cursive;
+            font-style: italic;
+            font-size: 4rem;
+            font-weight: 100;
+            line-height: 1.2;
+            
+            /* 🔥 TEXTURA DE IMAGEN EN LAS LETRAS */
+            background-image: url('dorado.jpg');
+            background-size: center;
+            background-position: center;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            
+            /* 🔥 BORDE SUTIL - da definición a la letra */
+            -webkit-text-stroke: 0.5px rgb(134, 105, 9);
+            
+            /* 🔥 SOMBRAS PARA PROFUNDIDAD 3D */
+            text-shadow: 
+                0 0 1px rgba(184, 155, 12, 0.945),
+                1px 1px 2px rgb(0, 0, 0),
+                0 1px 2px rgba(238, 185, 10, 0.925),
+                1px 1px 2px rgb(5, 5, 5);
+            
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .initials {
+            font-family: 'Papillion', 'Champignon', cursive;
+            font-style: italic;
+            font-size: 4.8rem;
+            font-weight: 300;
+            line-height: 3.2;
+            
+            /* 🔥 TEXTURA DE IMAGEN EN LAS LETRAS */
+            background-image: url('dorado.jpg');
+            background-size: cover;
+            background-position: center;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            
+            /* 🔥 BORDE SUTIL - da definición a la letra */
+            -webkit-text-stroke: 0.5px rgba(146, 115, 11, 0.781);
+            
+            /* 🔥 SOMBRAS PARA PROFUNDIDAD 3D */
+            text-shadow: 
+                0 0 1px rgba(184, 155, 12, 0.829),
+                1px 1px 5px rgb(0, 0, 0),
+                0 1px 2px rgba(238, 185, 10, 0.925),
+                2px 2px 1px rgb(5, 5, 1);
+            
+            letter-spacing: 7px;
+            margin-top: 0;
+            display: block;
+        }
+
+        /* ============================================= */
+        /* INDICADOR "HAZ CLIC"                          */
+        /* ============================================= */
+        .click-hint {
+            position: absolute;
+            bottom: 40px;
+            z-index: 2;
+            color: rgba(255, 255, 255, 0.6);
+            font-family: 'Georgia', serif;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            animation: pulse 2s ease-in-out infinite;
+            text-transform: uppercase;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        /* ============================================= */
+        /* INVITACIÓN                                    */
+        /* ============================================= */
+        #invitationOverlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 8;
+            display: none;
+            pointer-events: none;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        #invitationOverlay.active {
+            display: flex;
+            pointer-events: auto;
+        }
+
+        .invitation-card {
+            background: rgba(255, 248, 235, 0.12);
+            backdrop-filter: blur(15px);
+            padding: 50px 60px;
+            max-width: 750px;
+            width: 90%;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(212, 175, 55, 0.2);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            text-align: center;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .invitation-card h2 {
+            font-family: 'Papillion', 'Great Vibes', 'Brush Script MT', cursive;
+            font-style: italic;
+            font-size: 3.2rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+            letter-spacing: 4px;
+            background-image: url('dorado.jpg');
+            background-size: cover;
+            background-position: center;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            -webkit-text-stroke: 0.5px rgba(212, 175, 55, 0.2);
+            text-shadow: 
+                0 0 2px rgba(212, 175, 55, 0.3),
+                0 2px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .invitation-card .names {
+            font-family: 'Great Vibes', 'Brush Script MT', cursive;
+            font-style: italic;
+            font-size: 2.2rem;
+            color: #d4af37;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+        }
+
+        .invitation-card .description {
+            font-family: 'Playfair Display', 'Georgia', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            line-height: 2.2;
+            color: #f0e6d3;
+            margin: 20px 0 30px;
+            padding: 0 10px;
+            text-align: justify;
+        }
+
+        .invitation-card .description p {
+            margin-bottom: 18px;
+        }
+
+        .invitation-card .description .poetic {
+            font-family: 'Cormorant Garamond', 'Georgia', serif;
+            font-style: italic;
+            font-size: 1.5rem;
+            color: #d4af37;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+            letter-spacing: 1px;
+        }
+
+        .invitation-card .description .signature {
+            font-family: 'Great Vibes', 'Brush Script MT', cursive;
+            font-style: italic;
+            font-size: 1.8rem;
+            color: #d4af37;
+            text-align: right;
+            margin-top: 15px;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 18px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 10px 28px;
+            border: 1.5px solid rgba(212, 175, 55, 0.5);
+            border-radius: 30px;
+            font-family: 'Cormorant Garamond', 'Georgia', serif;
+            font-style: italic;
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 2.5px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-decoration: none;
+            display: inline-block;
+            background: transparent;
+            color: #d4af37;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.15), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 32px;
+            background: linear-gradient(135deg, #d4af37, #b8962e, #d4af37);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .btn:hover::after {
+            opacity: 1;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 6px 25px rgba(212, 175, 55, 0.25);
+            border-color: #d4af37;
+            background: rgba(212, 175, 55, 0.08);
+            color: #f0e6d3;
+        }
+
+        .btn-primary {
+            border-color: rgba(212, 175, 55, 0.6);
+            color: #d4af37;
+        }
+
+        .btn-primary:hover {
+            border-color: #d4af37;
+            background: rgba(212, 175, 55, 0.12);
+            box-shadow: 0 6px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-secondary {
+            border-color: rgba(139, 26, 26, 0.5);
+            color: #d4af37;
+        }
+
+        .btn-secondary:hover {
+            border-color: #d4af37;
+            background: rgba(139, 26, 26, 0.15);
+            box-shadow: 0 6px 30px rgba(139, 26, 26, 0.25);
+        }
+
+        .invitation-card::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .invitation-card::-webkit-scrollbar-track {
+            background: rgba(139, 107, 42, 0.1);
+            border-radius: 10px;
+        }
+
+        .invitation-card::-webkit-scrollbar-thumb {
+            background: #D4AF37;
+            border-radius: 10px;
+        }
+
+        /* ============================================= */
+        /* RESPONSIVE                                    */
+        /* ============================================= */
+        @media (max-width: 768px) {
+            .welcome-text {
+                font-size: 2.8rem;
+            }
+            .initials {
+                font-size: 3.5rem;
+            }
+            .start-content {
+                gap: 25px;
+            }
+            .invitation-card {
+                padding: 30px 25px;
+                width: 95%;
+            }
+            .invitation-card h2 {
+                font-size: 2.6rem;
+            }
+            .invitation-card .names {
+                font-size: 1.8rem;
+            }
+            .invitation-card .description {
+                font-size: 0.95rem;
+            }
+            .invitation-card .description .poetic {
+                font-size: 1.2rem;
+            }
+            .btn {
+                padding: 8px 20px;
+                font-size: 0.85rem;
+                letter-spacing: 2px;
+            }
+            .button-group {
+                gap: 12px;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .welcome-text {
+                font-size: 2.2rem;
+            }
+            .initials {
+                font-size: 2.8rem;
+            }
+            .start-content {
+                gap: 20px;
+            }
+            .invitation-card {
+                padding: 20px 15px;
+            }
+            .invitation-card h2 {
+                font-size: 2.2rem;
+            }
+            .invitation-card .names {
+                font-size: 1.4rem;
+            }
+            .invitation-card .description .poetic {
+                font-size: 1rem;
+            }
+            .btn {
+                padding: 7px 16px;
+                font-size: 0.75rem;
+                letter-spacing: 1.5px;
+            }
+        }
+    </style>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+
+        <!-- VIDEO - SIEMPRE VISIBLE DESDE EL INICIO -->
+        <div id="videoContainer">
+            <video id="weddingVideo" muted preload="auto"></video>
+        </div>
+
+        <!-- PORTADA - SOBREPUESTA AL VIDEO -->
+        <div id="startScreen">
+            <div class="start-content">
+                <div class="welcome-text">Bienvenidos a Nuestra Boda</div>
+                <div class="initials">J &amp; V</div>
+            </div>
+            <div class="click-hint">✦ Haz clic para comenzar ✦</div>
+        </div>
+
+        <!-- INVITACIÓN -->
+        <div id="invitationOverlay">
+            <div class="invitation-card">
+                <h2>✦ Invitación ✦</h2>
+                <div class="names">Juan Pablo Mier Velásquez &amp; Viviana Arévalo Camacho</div>
+                <div class="description">
+                    <p>
+                        <span class="poetic">"En la quietud del tiempo, dos almas encontraron su destino bajo el manto estrellado del cielo."</span>
+                    </p>
+                    <p>
+                        Juan Pablo, con la templanza del roble centenario y la dulzura del viento primaveral, y Viviana, con el resplandor del amanecer y la gracia de las flores más exquisitas, han decidido entrelazar sus caminos en uno solo, forjando un amor que trasciende las palabras.
+                    </p>
+                    <p>
+                        Hoy, en este día de profunda significación, deseamos compartir con ustedes la dicha inmensa que habita en nuestros corazones. Nuestro amor, como un jardín en primavera, ha florecido con la belleza de los sentimientos más puros. Cada latido ha sido un verso inmortal, cada mirada una promesa eterna, y cada instante compartido una melodía que el viento llevará por siempre.
+                    </p>
+                    <p>
+                        <span class="poetic">"El amor verdadero no se busca, se construye con la paciencia del tiempo y la entrega del alma."</span>
+                    </p>
+                    <p>
+                        Hoy les extendemos la más cordial invitación para que sean testigos de este capítulo sublime, donde dos historias de vida se funden para escribir la leyenda más hermosa jamás contada. Su presencia en este día tan especial será el más valioso de los tesoros que podamos atesorar.
+                    </p>
+                    <p>
+                        Con profunda gratitud y amor eterno, les esperamos para celebrar juntos el comienzo de nuestra historia más hermosa.
+                    </p>
+                    <p class="signature">
+                        — Con todo nuestro amor y gratitud,<br>
+                        Juan Pablo &amp; Viviana
+                    </p>
+                </div>
+                <div class="button-group">
+                    <a href="https://www.tulinkconfirmacion.com" target="_blank" class="btn btn-primary">✦ Confirmar Asistencia</a>
+                    <a href="https://www.tulinkcelebracion.com" target="_blank" class="btn btn-secondary">✦ Celebración de Boda</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            const startScreen = document.getElementById('startScreen');
+            const video = document.getElementById('weddingVideo');
+            const invitationOverlay = document.getElementById('invitationOverlay');
+
+            const VIDEO_URL = 'video-boda.mp4';
+            const MUSIC_URL = 'musica-boda.mp3';
+            
+            const INVITATION_TIME = 15.17;
+            const MUSIC_START_TIME = 14.17;
+            
+            let musicAudio = null;
+            let isMusicPlaying = false;
+            let isLooping = false;
+            let loopInterval = null;
+            let videoEnded = false;
+            let videoLoaded = false;
+            let introMusic = null;
+            let isIntroMusicPlaying = false;
+            let videoStarted = false;
+            let firstFrameShown = false;
+
+            /* ============================================= */
+            /* MOSTRAR PRIMER FOTOGRAMA DEL VIDEO            */
+            /* ============================================= */
+            function showFirstFrame() {
+                if (firstFrameShown) return;
+                video.currentTime = 0;
+                video.load();
+                video.muted = true;
+                video.play().then(() => {
+                    video.pause();
+                    firstFrameShown = true;
+                    console.log('📸 Primer fotograma mostrado');
+                }).catch(() => {
+                    // Si no se puede reproducir, intentar solo cargar
+                    video.load();
+                    firstFrameShown = true;
+                });
+            }
+
+            /* ============================================= */
+            /* CONFIGURAR VIDEO                             */
+            /* ============================================= */
+            function setupVideo() {
+                if (videoLoaded) return;
+                video.src = VIDEO_URL;
+                video.load();
+                video.muted = true;
+                video.controls = false;
+                videoLoaded = true;
+
+                // Mostrar el primer frame apenas sea posible
+                video.addEventListener('loadeddata', function() {
+                    if (!firstFrameShown) {
+                        video.currentTime = 0;
+                        firstFrameShown = true;
+                    }
+                });
+
+                // Si el video no se carga, intentar de nuevo
+                setTimeout(function() {
+                    if (!firstFrameShown) {
+                        showFirstFrame();
+                    }
+                }, 2000);
+            }
+
+            /* ============================================= */
+            /* LISTENERS DEL VIDEO                          */
+            /* ============================================= */
+            function setupVideoListeners() {
+                video.addEventListener('loadedmetadata', function() {
+                    console.log('Video cargado, duración:', video.duration);
+                });
+
+                video.addEventListener('timeupdate', function() {
+                    const currentTime = video.currentTime;
+
+                    if (currentTime >= INVITATION_TIME - 0.05 && currentTime < INVITATION_TIME + 0.5) {
+                        invitationOverlay.classList.add('active');
+                    }
+
+                    if (currentTime >= MUSIC_START_TIME && currentTime < INVITATION_TIME + 1 && !isMusicPlaying) {
+                        playInvitationMusic();
+                    }
+
+                    const duration = video.duration;
+                    if (duration > 0 && currentTime >= duration - 5 && !isLooping && !videoEnded) {
+                        isLooping = true;
+                        startLoop();
+                    }
+
+                    if (currentTime >= duration - 0.1 && !videoEnded) {
+                        videoEnded = true;
+                        if (!isLooping) {
+                            startLoop();
+                        }
+                    }
+                });
+
+                video.addEventListener('ended', function() {
+                    if (!isLooping) {
+                        startLoop();
+                    }
+                });
+
+                video.addEventListener('error', function(e) {
+                    console.log('Error en video:', e);
+                });
+            }
+
+            /* ============================================= */
+            /* FUNCIONES DE MÚSICA                          */
+            /* ============================================= */
+            function playIntroMusic() {
+                if (isIntroMusicPlaying) return;
+                try {
+                    introMusic = new Audio(MUSIC_URL);
+                    introMusic.volume = 0.3;
+                    introMusic.play().catch(e => {
+                        console.log('Error al reproducir música de inicio:', e);
+                    });
+                    isIntroMusicPlaying = true;
+                } catch (e) {
+                    console.log('Error al cargar música de inicio:', e);
+                }
+            }
+
+            function playInvitationMusic() {
+                if (isMusicPlaying) return;
+                try {
+                    if (introMusic && isIntroMusicPlaying) {
+                        introMusic.pause();
+                        introMusic.currentTime = 0;
+                        isIntroMusicPlaying = false;
+                    }
+
+                    musicAudio = new Audio(MUSIC_URL);
+                    musicAudio.loop = true;
+                    musicAudio.volume = 0.5;
+                    musicAudio.play().catch(e => {
+                        console.log('Error al reproducir música de invitación:', e);
+                    });
+                    isMusicPlaying = true;
+                } catch (e) {
+                    console.log('Error al cargar música de invitación:', e);
+                }
+            }
+
+            /* ============================================= */
+            /* LOOP DEL VIDEO                               */
+            /* ============================================= */
+            function startLoop() {
+                if (loopInterval) return;
+
+                const duration = video.duration;
+                const startLoopTime = Math.max(0, duration - 5);
+
+                function loopPlay() {
+                    if (!video.paused) {
+                        video.pause();
+                    }
+                    video.currentTime = startLoopTime;
+                    video.play().catch(e => console.log('Error en bucle:', e));
+                }
+
+                loopPlay();
+
+                loopInterval = setInterval(() => {
+                    if (video.currentTime >= duration - 0.1 || video.ended) {
+                        loopPlay();
+                    }
+                }, 100);
+
+                video.addEventListener('ended', loopPlay);
+            }
+
+            /* ============================================= */
+            /* INICIAR REPRODUCCIÓN DEL VIDEO               */
+            /* ============================================= */
+            function startVideo() {
+                if (videoStarted) return;
+                videoStarted = true;
+
+                // Configurar listeners si no están configurados
+                if (!video._listenersSetup) {
+                    setupVideoListeners();
+                    video._listenersSetup = true;
+                }
+
+                // Reproducir desde el principio
+                video.currentTime = 0;
+                video.play().catch(e => {
+                    console.log('Error al reproducir:', e);
+                    setTimeout(() => {
+                        video.play().catch(err => console.log('Error en segundo intento:', err));
+                    }, 500);
+                });
+
+                // Iniciar música de intro
+                playIntroMusic();
+
+                // Desbloquear audio en dispositivos móviles
+                if (window.AudioContext || window.webkitAudioContext) {
+                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    if (ctx.state === 'suspended') {
+                        ctx.resume();
+                    }
+                }
+            }
+
+            /* ============================================= */
+            /* EVENTO DE CLIC EN PORTADA                    */
+            /* ============================================= */
+            startScreen.addEventListener('click', function() {
+                // 1. DESVANECER LAS PALABRAS
+                const startContent = document.querySelector('.start-content');
+                startContent.classList.add('fade-out');
+                
+                // 2. OCULTAR PORTADA Y REPRODUCIR VIDEO
+                setTimeout(function() {
+                    startScreen.classList.add('hidden');
+                    startVideo();
+                }, 450);
+            });
+
+            /* ============================================= */
+            /* CERRAR INVITACIÓN AL CLIC FUERA              */
+            /* ============================================= */
+            invitationOverlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+
+            /* ============================================= */
+            /* INICIALIZACIÓN                                */
+            /* ============================================= */
+            setupVideo();
+
+            // Mostrar el primer frame del video inmediatamente
+            setTimeout(showFirstFrame, 100);
+
+            console.log('✅ Invitación de Boda J&V - Video visible desde el inicio');
+
+        })();
+    </script>
+</body>
+</html>
