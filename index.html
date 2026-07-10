@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Invitación de Boda · J & V</title>
+    
     <style>
-        /* ============================================= */
-        /* RESET Y ESTILOS BASE                          */
-        /* ============================================= */
+        /* ============================================================ */
+        /* 1. RESET Y ESTILOS BASE                                       */
+        /* ============================================================ */
         * {
             margin: 0;
             padding: 0;
@@ -23,7 +24,7 @@
 
         body {
             font-family: 'Georgia', serif;
-            background: #1a0a0a;
+            background: #0a0505;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -39,9 +40,22 @@
             overflow: hidden;
         }
 
-        /* ============================================= */
-        /* VIDEO - FONDO CON object-fit: cover           */
-        /* ============================================= */
+        #videoBackground {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            filter: blur(25px) brightness(0.7) saturate(1.2);
+            transform: scale(1.1);
+        }
+
+        #videoBackground video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         #videoContainer {
             position: absolute;
             width: 100%;
@@ -50,22 +64,17 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #00000000;
+            background: transparent;
         }
 
         #weddingVideo {
             width: 100%;
             height: 100%;
-            object-fit: cover;            /* 🔥 ocupa toda la pantalla sin bordes */
-            background: #00000000;
+            object-fit: contain;
+            background: transparent;
             filter: contrast(1.05) saturate(1.08) brightness(1);
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
         }
 
-        /* ============================================= */
-        /* PORTADA · SOBREPUESTA CON TEXTO MEJORADO      */
-        /* ============================================= */
         #startScreen {
             position: absolute;
             width: 100%;
@@ -74,7 +83,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: rgba(0, 0, 0, 0.2);   /* sutil oscuridad para resaltar letras */
+            background: rgba(10, 10, 10, 0.253);
             z-index: 10;
             cursor: pointer;
             transition: opacity 0.6s ease;
@@ -97,7 +106,6 @@
             gap: 20px;
         }
 
-        /* 🔥 DESVANECIMIENTO RÁPIDO */
         .start-content.fade-out .welcome-text,
         .start-content.fade-out .initials,
         .start-content.fade-out .click-hint {
@@ -115,79 +123,82 @@
             100% { opacity: 0; transform: scale(0.95); }
         }
 
-        /* ============================================= */
-        /* 🔥 LETRAS DE PORTADA · SIN TEXTURA DE IMAGEN  */
-        /*   ahora usamos degradado, sombras y brillos   */
-        /* ============================================= */
         .welcome-text {
-            font-family: 'Papillion', 'Champignon', 'Great Vibes', cursive;
-            font-style: italic;
-            font-size: 4.2rem;
-            font-weight: 300;
-            line-height: 1.2;
-            
-            /* 🔥 DEGRADADO DORADO SIN IMAGEN */
-            background: linear-gradient(120deg, #f7d75a 0%, #5a480f 40%, #d09706 70%, #f5c907 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            
-            /* 🔥 BRILLO Y DEFINICIÓN */
-            -webkit-text-stroke: 0.8px rgba(239, 168, 15, 0.5);
-            text-shadow: 
-                0 0 10px rgba(212, 175, 55, 0.6),
-                0 0 20px rgba(212, 175, 55, 0.3),
-                0 2px 8px rgba(0, 0, 0, 0.7),
-                0 1px 2px rgba(10, 10, 10, 0.985);
-            
-            letter-spacing: 3px;
-            margin-bottom: 0;
-            display: block;
-            transform: scale(1);
-            transition: transform 0.3s ease;
+            font-family:'Papillion','Great Vibes',cursive;
+            font-style:italic;
+            font-size:4.4rem;
+            font-weight:400;
+            letter-spacing:4px;
+            line-height:2;
+            background:
+            linear-gradient(
+                180deg,
+
+                #fffdf9 0%,
+                #fff8dc 6%,
+                #fff2b5 12%,
+                #ffe07a 18%,
+                #f7c944 24%,
+                #dca31d 35%,
+                #a96c00 47%,
+                #7d4700 55%,
+                #b67b05 65%,
+                #efc84d 76%,
+                #fff2bf 88%,
+                #ffffff 100%
+            );
+
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            background-clip:text;
+            -webkit-text-stroke:.6px rgba(255,235,170,.20);
+            filter:drop-shadow(0 2px 2px rgba(255,255,255,.25));
+            text-shadow:
+
+            0 1px 0 rgba(248, 162, 3, 0.76),
+            0 3px 5px rgba(120, 70, 0, 0.534),
+            0 10px 25px rgba(0, 0, 0, 0.466),
+            0 0 25px rgba(255, 209, 70, 0.425),
+            0 0 45px rgba(255,185,30,.18);
         }
 
         .initials {
-            font-family: 'Papillion', 'Champignon', 'Great Vibes', cursive;
-            font-style: italic;
-            font-size: 5.5rem;
-            font-weight: 700;
-            line-height: 1.3;
-            
-            /* 🔥 DEGRADADO DORADO MÁS INTENSO */
-            background: linear-gradient(145deg, #f5d76e 0%, #d4af37 30%, #b8860b 70%, #f5d76e 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            
-            -webkit-text-stroke: 1px rgba(180, 130, 20, 0.4);
-            text-shadow: 
-                0 0 15px rgba(212, 175, 55, 0.8),
-                0 0 30px rgba(212, 175, 55, 0.4),
-                0 2px 10px rgba(0, 0, 0, 0.8),
-                0 6px 18px rgba(0, 0, 0, 0.6);
-            
-            letter-spacing: 12px;
-            margin-top: -5px;
-            display: block;
+            font-family:'Papillion','Great Vibes',cursive;
+            font-size:4.4rem;
+            font-weight:700;
+            letter-spacing:12px;
+            background:
+            linear-gradient(
+                180deg,
+
+                #ffffff 0%,
+                #fffde7 6%,
+                #fff5c8 13%,
+                #ffe89c 20%,
+                #f6ca53 28%,
+                #d89d19 40%,
+                #9b6202 52%,
+                #7d4300 60%,
+                #b97f08 70%,
+                #efcb63 82%,
+                #fff6d2 94%,
+                #ffffff 100%
+
+            );
+
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            background-clip:text;
+            -webkit-text-stroke:.8px rgba(114, 114, 113, 0.267);
+            text-shadow:
+            0 1px 0 rgba(248, 162, 3, 0.76),
+            0 4px 8px rgba(120,70,0,.45),
+            0 12px 30px rgba(0,0,0,.40),
+            0 0 25px rgba(255,220,90,.40),
+            0 0 60px rgba(255,190,35,.25);
+
         }
 
-        /* 🔥 NUEVO: detalle decorativo */
-        .welcome-text::after {
-            content: '✦';
-            display: block;
-            font-size: 1.6rem;
-            color: #d4af37;
-            -webkit-text-fill-color: #d4af37;
-            text-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
-            margin-top: -5px;
-            opacity: 0.7;
-            letter-spacing: 6px;
-        }
-
-        /* ============================================= */
-        /* CLICK HINT · más elegante                     */
-        /* ============================================= */
         .click-hint {
             position: absolute;
             bottom: 40px;
@@ -199,7 +210,7 @@
             animation: pulse 2.5s ease-in-out infinite;
             text-transform: uppercase;
             text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
-            background: rgba(0,0,0,0.2);
+            background: rgba(255, 255, 255, 0.2);
             padding: 6px 18px;
             border-radius: 30px;
             backdrop-filter: blur(2px);
@@ -211,9 +222,6 @@
             50% { opacity: 0.9; transform: translateY(-4px); }
         }
 
-        /* ============================================= */
-        /* INVITACIÓN · NUEVO DISEÑO MÁS ROMÁNTICO       */
-        /* ============================================= */
         #invitationOverlay {
             position: absolute;
             top: 0;
@@ -225,8 +233,7 @@
             pointer-events: none;
             justify-content: center;
             align-items: center;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(6px);
+            background: rgba(0, 0, 0, 0.4);
             padding: 10px;
         }
 
@@ -235,62 +242,132 @@
             pointer-events: auto;
         }
 
+        .invitation-wrapper {
+            width: 100%;
+            max-width: 850px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
         .invitation-card {
-            background: rgba(20, 10, 8, 0.85);
+            background: rgba(255, 255, 255, 0.103);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             padding: 40px 40px 35px;
-            max-width: 700px;
             width: 100%;
             border-radius: 40px 12px 40px 12px;
             box-shadow: 0 30px 80px rgba(0,0,0,0.8), 0 0 60px rgba(212, 175, 55, 0.15);
-            border: 1px solid rgba(212, 175, 55, 0.25);
+            border: 1px solid rgba(196, 151, 5, 0.986);
             text-align: center;
             max-height: 90vh;
             overflow-y: auto;
             position: relative;
+            opacity: 0;
+            animation: desenrollar 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            transform-origin: center center;
         }
 
-        /* decoración esquinas */
-        .invitation-card::before,
-        .invitation-card::after {
-            content: '✦';
-            position: absolute;
-            font-size: 1.8rem;
-            color: #d4af37;
-            opacity: 0.3;
+        @keyframes desenrollar {
+            0% { opacity: 0; transform: scaleY(0.3) scaleX(0.8); clip-path: inset(50% 0 50% 0); }
+            25% { opacity: 0.5; transform: scaleY(0.6) scaleX(0.9); clip-path: inset(30% 0 30% 0); }
+            50% { opacity: 0.8; transform: scaleY(0.9) scaleX(0.98); clip-path: inset(10% 0 10% 0); }
+            75% { opacity: 1; transform: scaleY(1.02) scaleX(1); clip-path: inset(0% 0 0% 0); }
+            100% { opacity: 1; transform: scaleY(1) scaleX(1); clip-path: inset(0% 0 0% 0); }
         }
+
         .invitation-card::before {
-            top: 15px;
-            left: 25px;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            opacity: 0;
+            animation: bordeSuperior 1.2s ease forwards 0.3s;
         }
+
         .invitation-card::after {
-            bottom: 15px;
-            right: 25px;
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            opacity: 0;
+            animation: bordeInferior 1.2s ease forwards 0.3s;
         }
 
-        .invitation-card h2 {
-            font-family: 'Papillion', 'Great Vibes', cursive;
-            font-style: italic;
-            font-size: 2.8rem;
-            font-weight: 300;
-            margin-bottom: 6px;
-            letter-spacing: 6px;
-            background: linear-gradient(135deg, #f9e07f, #d4af37, #b8860b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 30px rgba(212,175,55,0.2);
+        @keyframes bordeSuperior {
+            0% { opacity: 0; transform: scaleX(0); }
+            100% { opacity: 0.8; transform: scaleX(1); }
         }
 
-        .invitation-card .names {
-            font-family: 'Great Vibes', 'Brush Script MT', cursive;
-            font-size: 2rem;
-            color: #d4af37;
-            margin-bottom: 16px;
-            letter-spacing: 2px;
-            text-shadow: 0 0 20px rgba(212,175,55,0.2);
-            border-bottom: 1px solid rgba(212,175,55,0.15);
-            padding-bottom: 12px;
+        @keyframes bordeInferior {
+            0% { opacity: 0; transform: scaleX(0); }
+            100% { opacity: 0.8; transform: scaleX(1); }
+        }
+
+        .invitation-card h2{
+            font-family:'Papillion','Great Vibes',cursive;
+            font-size:3.2rem;
+            font-weight:400;
+            letter-spacing:8px;
+
+            background:linear-gradient(
+                180deg,
+                #fff7d0 0%,
+                #ffe89c 15%,
+                #d8a92d 38%,
+                #8c6512 65%,
+                #fff5c4 100%
+            );
+
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+
+            text-shadow:
+                0 0 35px rgba(255,220,120,.35),
+                0 8px 20px rgba(0,0,0,.35);
+
+            margin-bottom:15px;
+        }
+
+        .invitation-card .names{
+
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            margin-bottom:28px;
+            padding-bottom:20px;
+            border-bottom:1px solid rgba(212,175,55,.18);
+
+            font-family:'Great Vibes',cursive;
+            font-size:2.35rem;
+            line-height:1.25;
+            letter-spacing:1px;
+
+            background:linear-gradient(
+            180deg,
+            #ffffff,
+            #fff6d5,
+            #e7bf54,
+            #a56c09,
+            #fff6d5,
+            #ffffff);
+
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+
+            text-shadow:
+            0 0 18px rgba(255,215,100,.18),
+            0 5px 15px rgba(0,0,0,.25);
         }
 
         .invitation-card .description {
@@ -298,7 +375,7 @@
             font-style: italic;
             font-size: 1rem;
             line-height: 2;
-            color: #f0e6d3;
+            color: #000000;
             margin: 12px 0 20px;
             padding: 0 5px;
             text-align: justify;
@@ -323,72 +400,172 @@
             font-family: 'Great Vibes', 'Brush Script MT', cursive;
             font-size: 1.6rem;
             color: #d4af37;
-            text-align: right;
+            text-align: center;
             margin-top: 10px;
             text-shadow: 0 0 20px rgba(212,175,55,0.15);
             border-top: 1px solid rgba(212,175,55,0.1);
             padding-top: 14px;
         }
 
-        /* ============================================= */
-        /* BOTONES MEJORADOS                             */
-        /* ============================================= */
         .button-group {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 10px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            gap:28px;
+            flex-wrap:wrap;
+            margin-top:35px;
         }
 
         .btn {
-            padding: 12px 32px;
-            border: 1.5px solid rgba(212, 175, 55, 0.5);
-            border-radius: 50px;
-            font-family: 'Cormorant Garamond', 'Georgia', serif;
-            font-style: italic;
-            font-size: 0.95rem;
-            font-weight: 600;
-            letter-spacing: 2.5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            background: rgba(212, 175, 55, 0.05);
-            color: #d4af37;
-            text-transform: uppercase;
-            backdrop-filter: blur(4px);
-            box-shadow: 0 0 15px rgba(212,175,55,0.05);
+            position:relative;
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:18px;
+            min-width:340px;
+            height:74px;
+            padding:0 42px;
+            overflow:hidden;
+            cursor:pointer;
+            text-decoration:none;
+            border:none;
+            border-radius:70px;
+            background:rgba(20,16,12,.22);
+            backdrop-filter:blur(18px);
+            -webkit-backdrop-filter:blur(18px);
+            font-family:'Cormorant Garamond',serif;
+            font-size:1.08rem;
+            font-weight:700;
+            letter-spacing:2.8px;
+            text-transform:uppercase;
+            color:#fff7de;
+            transition:.6s cubic-bezier(.2,.8,.2,1);
+            box-shadow:
+            0 22px 45px rgba(0,0,0,.45),
+            inset 0 1px 0 rgba(255,255,255,.15),
+            inset 0 -10px 18px rgba(0,0,0,.35);
         }
 
-        .btn:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.25);
-            border-color: #d4af37;
-            background: rgba(212, 175, 55, 0.12);
-            color: #f5e6c4;
+        .btn::before{
+            content:"";
+            position:absolute;
+            inset:0;
+            padding:2px;
+            border-radius:70px;
+            background:
+            linear-gradient(
+            145deg,
+            #ffffff,
+            #fff6c6,
+            #e7bf55,
+            #a56c09,
+            #6f4200,
+            #c79016,
+            #fff1b4,
+            #ffffff);
+
+            -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+
+            -webkit-mask-composite:xor;
+            mask-composite:exclude;
         }
 
-        .btn-primary {
-            border-color: rgba(212, 175, 55, 0.6);
-            background: rgba(212, 175, 55, 0.08);
+        .btn::after{
+        content:"";
+        position:absolute;
+        left:7px;
+        right:7px;
+        top:7px;
+        bottom:7px;
+        border-radius:60px;
+        border:1px solid rgba(255,255,255,.08);
+        box-shadow:
+        inset 0 0 18px rgba(255,215,120,.08);
+
         }
 
-        .btn-primary:hover {
-            background: rgba(212, 175, 55, 0.2);
-            box-shadow: 0 8px 35px rgba(212, 175, 55, 0.3);
+        .btn .ornament{
+        font-size:22px;
+        color:#f4d57b;
+        text-shadow:
+        0 0 10px rgba(255,215,90,.45);
+        transition:.6s;
+
+        }
+        .btn span{
+        position:relative;
+        z-index:3;
+        font-weight:700;
+        text-shadow:
+        0 2px 6px rgba(0,0,0,.45);
+
         }
 
-        .btn-secondary {
-            border-color: rgba(180, 130, 40, 0.4);
+        .btn .shine{
+        position:absolute;
+        top:-150%;
+        left:-35%;
+        width:28%;
+        height:360%;
+        background:
+        linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.55),
+        transparent);
+        transform:rotate(24deg);
+        transition:1.8s;
+
         }
 
-        .btn-secondary:hover {
-            border-color: #d4af37;
-            background: rgba(180, 130, 40, 0.12);
+        .btn:hover{
+        transform:translateY(-7px);
+        background:rgba(48,34,15,.35);
+        box-shadow:
+        0 28px 60px rgba(0,0,0,.58),
+        0 0 35px rgba(255,215,90,.28);
         }
 
-        /* scroll personalizado */
+        .btn:hover .shine{
+        left:145%;
+        }
+
+        .btn:hover .ornament{
+        transform:rotate(360deg) scale(1.15);
+        }
+
+        .btn:active{
+            transform:scale(.98);
+        }
+
+        .btn-secondary{
+
+            background:
+            linear-gradient(
+            180deg,
+            #fffdf700,
+            #efd88d,
+            #ca9320,
+            #a46b08,
+            #f5d982);
+
+        }
+
+        .btn-calendar{
+
+            background:
+            linear-gradient(
+            180deg,
+            #fff9ec00,
+            #f6dd8b,
+            #b88a1d,
+            #8d6209,
+            #f0d77d);
+
+        }
+
         .invitation-card::-webkit-scrollbar {
             width: 4px;
         }
@@ -397,128 +574,42 @@
             border-radius: 10px;
         }
         .invitation-card::-webkit-scrollbar-thumb {
-            background: #D4AF37;
+            background: rgba(255, 255, 255, 0);
             border-radius: 10px;
         }
 
-        /* ============================================= */
-        /* RESPONSIVE · OPTIMIZADO PARA MÓVILES          */
-        /* ============================================= */
         @media (max-width: 768px) {
-            .welcome-text {
-                font-size: 3.2rem;
-                letter-spacing: 2px;
-            }
-            .welcome-text::after {
-                font-size: 1.2rem;
-            }
-            .initials {
-                font-size: 4.2rem;
-                letter-spacing: 10px;
-            }
-            .start-content {
-                gap: 14px;
-            }
-            .invitation-card {
-                padding: 28px 18px 24px;
-                border-radius: 30px 8px 30px 8px;
-            }
-            .invitation-card h2 {
-                font-size: 2.2rem;
-                letter-spacing: 4px;
-            }
-            .invitation-card .names {
-                font-size: 1.6rem;
-            }
-            .invitation-card .description {
-                font-size: 0.9rem;
-                line-height: 1.9;
-            }
-            .invitation-card .description .poetic {
-                font-size: 1.15rem;
-            }
-            .btn {
-                padding: 10px 22px;
-                font-size: 0.8rem;
-                letter-spacing: 2px;
-            }
-            .button-group {
-                gap: 10px;
-                flex-direction: column;
-                align-items: center;
-            }
-            .click-hint {
-                bottom: 25px;
-                font-size: 0.7rem;
-                padding: 4px 14px;
-            }
+            .welcome-text { font-size: 3.2rem; letter-spacing: 2px; }
+            .welcome-text::after { font-size: 1.2rem; }
+            .initials { font-size: 4.2rem; letter-spacing: 10px; }
+            .start-content { gap: 14px; }
+            .invitation-card { padding: 28px 18px 24px; border-radius: 30px 8px 30px 8px; }
+            .invitation-card h2 { font-size: 2.2rem; letter-spacing: 4px; }
+            .invitation-card .names { font-size: 1.6rem; }
+            .invitation-card .description { font-size: 0.9rem; line-height: 1.9; }
+            .invitation-card .description .poetic { font-size: 1.15rem; }
+            .btn { padding: 10px 22px; font-size: 0.8rem; letter-spacing: 2px; }
+            .button-group { gap: 10px; flex-direction: column; align-items: center; }
+            .click-hint { bottom: 25px; font-size: 0.7rem; padding: 4px 14px; }
+            #videoBackground { filter: blur(18px) brightness(0.6) saturate(1.2); }
         }
 
         @media (max-width: 480px) {
-            .welcome-text {
-                font-size: 2.4rem;
-            }
-            .initials {
-                font-size: 3.2rem;
-                letter-spacing: 8px;
-            }
-            .start-content {
-                gap: 10px;
-            }
-            .invitation-card {
-                padding: 20px 12px 18px;
-                max-height: 92vh;
-                border-radius: 24px 6px 24px 6px;
-            }
-            .invitation-card h2 {
-                font-size: 1.8rem;
-                letter-spacing: 2px;
-            }
-            .invitation-card .names {
-                font-size: 1.3rem;
-            }
-            .invitation-card .description {
-                font-size: 0.8rem;
-                line-height: 1.8;
-            }
-            .invitation-card .description .poetic {
-                font-size: 1rem;
-            }
-            .invitation-card .description .signature {
-                font-size: 1.2rem;
-            }
-            .btn {
-                padding: 8px 16px;
-                font-size: 0.7rem;
-                letter-spacing: 1.5px;
-                width: 100%;
-                max-width: 240px;
-            }
-            .click-hint {
-                bottom: 18px;
-                font-size: 0.6rem;
-                padding: 3px 12px;
-            }
-        }
-
-        @media (max-width: 380px) {
-            .welcome-text {
-                font-size: 2rem;
-            }
-            .initials {
-                font-size: 2.6rem;
-                letter-spacing: 6px;
-            }
-            .invitation-card h2 {
-                font-size: 1.5rem;
-            }
-            .invitation-card .names {
-                font-size: 1.1rem;
-            }
+            .welcome-text { font-size: 2.4rem; }
+            .initials { font-size: 3.2rem; letter-spacing: 8px; }
+            .start-content { gap: 10px; }
+            .invitation-card { padding: 20px 12px 18px; max-height: 92vh; border-radius: 24px 6px 24px 6px; }
+            .invitation-card h2 { font-size: 1.8rem; letter-spacing: 2px; }
+            .invitation-card .names { font-size: 1.3rem; }
+            .invitation-card .description { font-size: 0.8rem; line-height: 1.8; }
+            .invitation-card .description .poetic { font-size: 1rem; }
+            .invitation-card .description .signature { font-size: 1.2rem; }
+            .btn { padding: 8px 16px; font-size: 0.7rem; letter-spacing: 1.5px; width: 100%; max-width: 240px; }
+            .click-hint { bottom: 18px; font-size: 0.6rem; padding: 3px 12px; }
+            #videoBackground { filter: blur(14px) brightness(0.5) saturate(1.1); }
         }
     </style>
 
-    <!-- Fuentes externas -->
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap" rel="stylesheet">
@@ -526,12 +617,14 @@
 <body>
     <div class="container">
 
-        <!-- VIDEO · FONDO -->
+        <div id="videoBackground">
+            <video id="bgVideo" muted preload="auto" playsinline></video>
+        </div>
+
         <div id="videoContainer">
             <video id="weddingVideo" muted preload="auto" playsinline></video>
         </div>
 
-        <!-- PORTADA -->
         <div id="startScreen">
             <div class="start-content">
                 <div class="welcome-text">Bienvenidos a Nuestra Boda</div>
@@ -540,38 +633,62 @@
             <div class="click-hint">✦  Haz clic para comenzar  ✦</div>
         </div>
 
-        <!-- INVITACIÓN · NUEVO DISEÑO -->
         <div id="invitationOverlay">
-            <div class="invitation-card">
-                <h2>✦ Invitación ✦</h2>
-                <div class="names">Juan Pablo Mier Velásquez &amp; Viviana Arévalo Camacho</div>
-                <div class="description">
-                    <p>
-                        <span class="poetic">"En la quietud del tiempo, dos almas encontraron su destino bajo el manto estrellado del cielo."</span>
-                    </p>
-                    <p>
-                        Juan Pablo, con la templanza del roble centenario y la dulzura del viento primaveral, y Viviana, con el resplandor del amanecer y la gracia de las flores más exquisitas, han decidido entrelazar sus caminos en uno solo, forjando un amor que trasciende las palabras.
-                    </p>
-                    <p>
-                        Hoy, en este día de profunda significación, deseamos compartir con ustedes la dicha inmensa que habita en nuestros corazones. Nuestro amor, como un jardín en primavera, ha florecido con la belleza de los sentimientos más puros. Cada latido ha sido un verso inmortal, cada mirada una promesa eterna, y cada instante compartido una melodía que el viento llevará por siempre.
-                    </p>
-                    <p>
-                        <span class="poetic">"El amor verdadero no se busca, se construye con la paciencia del tiempo y la entrega del alma."</span>
-                    </p>
-                    <p>
-                        Hoy les extendemos la más cordial invitación para que sean testigos de este capítulo sublime, donde dos historias de vida se funden para escribir la leyenda más hermosa jamás contada. Su presencia en este día tan especial será el más valioso de los tesoros que podamos atesorar.
-                    </p>
-                    <p>
-                        Con profunda gratitud y amor eterno, les esperamos para celebrar juntos el comienzo de nuestra historia más hermosa.
-                    </p>
-                    <p class="signature">
-                        — Con todo nuestro amor y gratitud,<br>
+            <div class="invitation-wrapper">
+                <div class="invitation-card">
+                    <h2>✦ Invitación ✦</h2>
+                    <div class="names">
+                            <div>Viviana Arevalo Camacho</div>
+                            <div style="margin:8px 0;font-size:1.6rem;">&</div>
+                            <div>Juan Pablo Mier Velásquez</div>
+                        </div>
+                        <div class="description">
+                        <p>
+                        Tenemos el honor y el inmenso placer de invitarles a compartir con nosotros uno de los momentos más trascendentales de nuestras vidas, y a ser testigos de la unión que, con profundo amor y plena convicción, hemos decidido consagrar para siempre.
+                        </p>
+                        <p>
+                        Como toda gran historia, la nuestra ha sido escrita con la fuerza del amor, la confianza y la esperanza. Hoy, guiados por esos mismos sentimientos, hemos decidido iniciar una nueva etapa, sellando nuestra unión en sagrado matrimonio bajo el amparo de Dios y con la bendición de nuestros queridos padres.
+                        </p>
+                        <p class="poetic">
+                        «El amor no se limita a una alianza mutua; es la plenitud de vivir cada emoción como una sola alma. Es la bendición de caminar juntos por la vida, compartir las lágrimas y las alegrías, celebrar los pequeños instantes y convertirlos en eternidad; guiados siempre por el corazón y la razón, teniendo como mayor prioridad el bienestar de quien se ama.»
+                        </p>
+                        <p>
+                        El matrimonio representa la promesa de dos personas que eligen caminar en una misma dirección. Es descubrir que la verdadera felicidad nace de la entrega sincera, del respeto, la comprensión y la compañía incondicional; es construir un hogar donde el amor sea el lenguaje cotidiano, la confianza su cimiento y la esperanza la fuerza que ilumine cada nuevo amanecer.
+                        </p>
+                        <p>
+                        Con inmensa alegría les extendemos nuestra más cordial invitación para acompañarnos en nuestra <strong>Boda Religiosa</strong>, la cual se celebrará el <strong>12 de septiembre</strong>, a horas <strong>15:00 p.m.</strong>, en la <strong>Hacienda Santa María</strong>, donde, con la bendición de Dios, uniremos nuestras vidas para siempre y escribiremos el comienzo de una nueva historia.
+                        </p>
+                        <p>
+                        Su presencia será para nosotros el regalo más valioso y el recuerdo más preciado que podremos conservar en nuestros corazones durante toda la vida.
+                        </p>
+                        <p>
+                        Al concluir la ceremonia religiosa, tendremos el inmenso placer de recibirles en una elegante recepción preparada con todo nuestro cariño, la cual se llevará a cabo en la misma <strong>Hacienda Santa María</strong>, a partir de las <strong>17:30 p.m.</strong>, donde compartiremos una tarde y una noche llenas de alegría, música, emociones y momentos inolvidables.
+                        </p>
+                        <p>
+                        Deseamos de todo corazón que nos acompañen a celebrar este día tan especial, porque su presencia hará aún más significativa esta fecha que quedará grabada para siempre en nuestras vidas.
+                        </p>
+                        <p class="signature">
+                        Con todo nuestro amor y gratitud<br><br>
                         Juan Pablo &amp; Viviana
-                    </p>
-                </div>
-                <div class="button-group">
-                    <a href="#" target="_blank" class="btn btn-primary">✦ Confirmar Asistencia</a>
-                    <a href="#" target="_blank" class="btn btn-secondary">✦ Celebración de Boda</a>
+                        </p>
+
+                    </div>
+                   <div class="button-group">
+                        <!-- Botón de ubicación funcional con el link de Google Maps -->
+                        <a href="https://www.google.com/maps/place/HACIENDA+SANTA+MARIA/@-17.3902299,-66.1191379,18z/data=!4m6!3m5!1s0x93e3714a74fa55cb:0xc08ca6f41c8d6d41!8m2!3d-17.3899218!4d-66.1180449!16s%2Fg%2F11cn98g68y?entry=ttu&g_ep=EgoyMDI2MDcwOC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="btn">
+                            <div class="shine"></div>
+                            <span class="ornament">❦</span>
+                            <span>Celebración de Nuestra Boda</span>
+                            <span class="ornament">❦</span>
+                        </a>
+
+                        <button class="btn" id="addToCalendar">
+                            <div class="shine"></div>
+                            <span class="ornament">✥</span>
+                            <span>Guardar la Fecha</span>
+                            <span class="ornament">✥</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -582,129 +699,143 @@
         (function() {
             'use strict';
 
+            // ============================================================
+            // REFERENCIAS A ELEMENTOS DEL DOM
+            // ============================================================
             const startScreen = document.getElementById('startScreen');
             const video = document.getElementById('weddingVideo');
+            const bgVideo = document.getElementById('bgVideo');
             const invitationOverlay = document.getElementById('invitationOverlay');
 
+            // ============================================================
+            // CONFIGURACIÓN DE ARCHIVOS Y TIEMPOS
+            // ============================================================
             const VIDEO_URL = 'video-boda.mp4';
-            const MUSIC_URL = 'musica-boda.mp3';
+            const INTRO_MUSIC_URL = 'musica inicio.mp3';
+            const MAIN_MUSIC_URL = 'musica-boda.mp3';
             
             const INVITATION_TIME = 15.17;
-            const MUSIC_START_TIME = 14.17;
-            
+            const MUSIC_START_TIME = 13.17;
+            const LOOP_DURATION = 3.8;
+
+            // ============================================================
+            // VARIABLES DE ESTADO
+            // ============================================================
             let musicAudio = null;
             let isMusicPlaying = false;
-            let isLooping = false;
-            let loopInterval = null;
-            let videoEnded = false;
             let videoLoaded = false;
             let introMusic = null;
             let isIntroMusicPlaying = false;
             let videoStarted = false;
             let firstFrameShown = false;
+            let isLooping = false;
+            let loopStartTime = 0;
+            let rafId = null;
+            let introMusicStarted = false;
 
-            /* ============================================= */
-            /* MOSTRAR PRIMER FOTOGRAMA                     */
-            /* ============================================= */
+            // ============================================================
+            // FUNCIÓN DEL BUCLE - requestAnimationFrame
+            // ============================================================
+            function startLoop() {
+                if (rafId) return;
+                
+                const duration = video.duration;
+                loopStartTime = Math.max(0, duration - LOOP_DURATION);
+
+                video.currentTime = loopStartTime;
+                bgVideo.currentTime = loopStartTime;
+                
+                if (video.paused) {
+                    video.play().catch(() => {});
+                }
+                if (bgVideo.paused) {
+                    bgVideo.play().catch(() => {});
+                }
+
+                function loopCheck(timestamp) {
+                    const currentTime = video.currentTime;
+                    const duration = video.duration;
+                    
+                    if (currentTime >= duration - 0.015 || video.ended) {
+                        video.currentTime = loopStartTime;
+                        bgVideo.currentTime = loopStartTime;
+                        
+                        if (video.paused) {
+                            video.play().catch(() => {});
+                        }
+                        if (bgVideo.paused) {
+                            bgVideo.play().catch(() => {});
+                        }
+                    }
+                    
+                    rafId = requestAnimationFrame(loopCheck);
+                }
+
+                rafId = requestAnimationFrame(loopCheck);
+            }
+
+            function stopLoop() {
+                if (rafId) {
+                    cancelAnimationFrame(rafId);
+                    rafId = null;
+                }
+            }
+
             function showFirstFrame() {
                 if (firstFrameShown) return;
+                
                 video.currentTime = 0;
                 video.load();
                 video.muted = true;
+                
                 video.play().then(() => {
                     video.pause();
                     firstFrameShown = true;
-                    console.log('📸 Primer fotograma mostrado');
                 }).catch(() => {
                     video.load();
                     firstFrameShown = true;
                 });
             }
 
-            /* ============================================= */
-            /* CONFIGURAR VIDEO                             */
-            /* ============================================= */
-            function setupVideo() {
-                if (videoLoaded) return;
-                video.src = VIDEO_URL;
-                video.load();
-                video.muted = true;
-                video.controls = false;
-                video.playsInline = true;
-                videoLoaded = true;
-
-                video.addEventListener('loadeddata', function() {
-                    if (!firstFrameShown) {
-                        video.currentTime = 0;
-                        firstFrameShown = true;
-                    }
-                });
-
-                setTimeout(function() {
-                    if (!firstFrameShown) {
-                        showFirstFrame();
-                    }
-                }, 2000);
-            }
-
-            /* ============================================= */
-            /* LISTENERS DEL VIDEO                          */
-            /* ============================================= */
-            function setupVideoListeners() {
-                video.addEventListener('loadedmetadata', function() {
-                    console.log('Video cargado, duración:', video.duration);
-                });
-
-                video.addEventListener('timeupdate', function() {
-                    const currentTime = video.currentTime;
-
-                    if (currentTime >= INVITATION_TIME - 0.05 && currentTime < INVITATION_TIME + 0.5) {
-                        invitationOverlay.classList.add('active');
-                    }
-
-                    if (currentTime >= MUSIC_START_TIME && currentTime < INVITATION_TIME + 1 && !isMusicPlaying) {
-                        playInvitationMusic();
-                    }
-
-                    const duration = video.duration;
-                    if (duration > 0 && currentTime >= duration - 5 && !isLooping && !videoEnded) {
-                        isLooping = true;
-                        startLoop();
-                    }
-
-                    if (currentTime >= duration - 0.1 && !videoEnded) {
-                        videoEnded = true;
-                        if (!isLooping) {
-                            startLoop();
-                        }
-                    }
-                });
-
-                video.addEventListener('ended', function() {
-                    if (!isLooping) {
-                        startLoop();
-                    }
-                });
-
-                video.addEventListener('error', function(e) {
-                    console.log('Error en video:', e);
-                });
-            }
-
-            /* ============================================= */
-            /* FUNCIONES DE MÚSICA                          */
-            /* ============================================= */
-            function playIntroMusic() {
+            // ============================================================
+            // FUNCIONES DE MÚSICA
+            // ============================================================
+            
+            /**
+             * 🔥 CAMBIO IMPORTANTE: Precarga la música pero NO la reproduce
+             */
+            function preloadIntroMusic() {
                 if (isIntroMusicPlaying) return;
                 try {
-                    introMusic = new Audio(MUSIC_URL);
+                    introMusic = new Audio(INTRO_MUSIC_URL);
                     introMusic.volume = 0.25;
-                    introMusic.play().catch(e => {
-                        console.log('Error al reproducir música de inicio:', e);
-                    });
+                    introMusic.pause(); // 🔥 Asegura que NO se reproduzca
+                    introMusic.currentTime = 0;
                     isIntroMusicPlaying = true;
+                    console.log('🎵 Música de inicio precargada (esperando 1s al video)');
                 } catch (e) {
-                    console.log('Error al cargar música de inicio:', e);
+                    console.log('Error cargando música de inicio:', e);
+                }
+            }
+
+            /**
+             * 🔥 CAMBIO IMPORTANTE: Esta función se ejecuta 1 SEGUNDO después
+             * de que el video haya comenzado
+             */
+            function startIntroMusicDelayed() {
+                if (introMusic && isIntroMusicPlaying && !introMusicStarted) {
+                    try {
+                        // 🔥 Esperar 1000ms (1 SEGUNDO) antes de reproducir
+                        setTimeout(() => {
+                            introMusic.play().catch(e => {
+                                console.log('Error al reproducir música de inicio:', e);
+                            });
+                            introMusicStarted = true;
+                            console.log('🎵 Música de inicio iniciada (1.5s después del video)');
+                        }, 1500); // 🔥 1000ms = 1 SEGUNDO
+                    } catch (e) {
+                        console.log('Error programando música de inicio:', e);
+                    }
                 }
             }
 
@@ -717,68 +848,58 @@
                         isIntroMusicPlaying = false;
                     }
 
-                    musicAudio = new Audio(MUSIC_URL);
+                    musicAudio = new Audio(MAIN_MUSIC_URL);
                     musicAudio.loop = true;
                     musicAudio.volume = 0.4;
-                    musicAudio.play().catch(e => {
-                        console.log('Error al reproducir música de invitación:', e);
-                    });
+                    musicAudio.play().catch(e => {});
                     isMusicPlaying = true;
+                    console.log('🎵 Música principal iniciada en:', MUSIC_START_TIME, 'segundos');
                 } catch (e) {
-                    console.log('Error al cargar música de invitación:', e);
+                    console.log('Error cargando música principal:', e);
                 }
             }
 
-            /* ============================================= */
-            /* LOOP DEL VIDEO                               */
-            /* ============================================= */
-            function startLoop() {
-                if (loopInterval) return;
-
-                const duration = video.duration;
-                const startLoopTime = Math.max(0, duration - 5);
-
-                function loopPlay() {
-                    if (!video.paused) {
-                        video.pause();
-                    }
-                    video.currentTime = startLoopTime;
-                    video.play().catch(e => console.log('Error en bucle:', e));
-                }
-
-                loopPlay();
-
-                loopInterval = setInterval(() => {
-                    if (video.currentTime >= duration - 0.1 || video.ended) {
-                        loopPlay();
-                    }
-                }, 100);
-
-                video.addEventListener('ended', loopPlay);
-            }
-
-            /* ============================================= */
-            /* INICIAR REPRODUCCIÓN DEL VIDEO               */
-            /* ============================================= */
+            // ============================================================
+            // FUNCIÓN: INICIAR REPRODUCCIÓN DEL VIDEO
+            // ============================================================
             function startVideo() {
                 if (videoStarted) return;
                 videoStarted = true;
 
-                if (!video._listenersSetup) {
-                    setupVideoListeners();
-                    video._listenersSetup = true;
-                }
-
                 video.currentTime = 0;
-                video.play().catch(e => {
-                    console.log('Error al reproducir:', e);
+                bgVideo.currentTime = 0;
+                
+                // 🔥 CAMBIO IMPORTANTE: Solo precargar la música, NO reproducir
+                preloadIntroMusic();
+                
+                // 🔥 CAMBIO IMPORTANTE: Iniciar el video
+                const playPromise = video.play();
+                
+                playPromise.then(() => {
+                    console.log('✅ Video comenzó a reproducirse');
+                    
+                    // 🔥 CAMBIO IMPORTANTE: Iniciar música 1 SEGUNDO después
+                    startIntroMusicDelayed();
+                    
+                    // Reproducir el video de fondo
+                    bgVideo.play().catch(() => {});
+                    
+                }).catch(e => {
+                    console.log('Error al reproducir video, reintentando...', e);
+                    // Si falla, intenta de nuevo después de 500ms
                     setTimeout(() => {
-                        video.play().catch(err => console.log('Error en segundo intento:', err));
+                        video.play().then(() => {
+                            console.log('✅ Video reproducido en reintento');
+                            // 🔥 También iniciar música en el reintento
+                            startIntroMusicDelayed();
+                        }).catch(() => {});
                     }, 500);
                 });
-
-                playIntroMusic();
-
+                
+                // Reproducir el video de fondo
+                bgVideo.play().catch(() => {});
+                
+                // Desbloqueo de audio para dispositivos móviles
                 if (window.AudioContext || window.webkitAudioContext) {
                     const ctx = new (window.AudioContext || window.webkitAudioContext)();
                     if (ctx.state === 'suspended') {
@@ -787,9 +908,82 @@
                 }
             }
 
-            /* ============================================= */
-            /* CLIC EN PORTADA                              */
-            /* ============================================= */
+            // ============================================================
+            // CONFIGURAR VIDEOS
+            // ============================================================
+            function setupVideos() {
+                if (videoLoaded) return;
+                
+                video.src = VIDEO_URL;
+                video.load();
+                video.muted = true;
+                video.controls = false;
+                video.playsInline = true;
+                
+                bgVideo.src = VIDEO_URL;
+                bgVideo.load();
+                bgVideo.muted = true;
+                bgVideo.controls = false;
+                bgVideo.playsInline = true;
+                
+                videoLoaded = true;
+
+                video.addEventListener('loadeddata', function() {
+                    if (!firstFrameShown) {
+                        video.currentTime = 0;
+                        bgVideo.currentTime = 0;
+                        firstFrameShown = true;
+                    }
+                });
+
+                video.addEventListener('timeupdate', function() {
+                    const currentTime = video.currentTime;
+                    const duration = video.duration;
+                    
+                    if (Math.abs(bgVideo.currentTime - currentTime) > 0.05) {
+                        bgVideo.currentTime = currentTime;
+                    }
+
+                    if (currentTime >= INVITATION_TIME - 0.05 && currentTime < INVITATION_TIME + 0.5) {
+                        invitationOverlay.classList.add('active');
+                    }
+
+                    if (currentTime >= MUSIC_START_TIME && currentTime < MUSIC_START_TIME + 0.5 && !isMusicPlaying) {
+                        playInvitationMusic();
+                    }
+
+                    if (duration > 0 && currentTime >= duration - LOOP_DURATION && !isLooping) {
+                        isLooping = true;
+                        startLoop();
+                    }
+                });
+
+                video.addEventListener('play', function() {
+                    if (bgVideo.paused) {
+                        bgVideo.play().catch(() => {});
+                    }
+                });
+
+                video.addEventListener('pause', function() {
+                    if (!bgVideo.paused && !isLooping) {
+                        bgVideo.pause();
+                    }
+                });
+
+                video.addEventListener('error', function(e) {
+                    console.log('Error en video:', e);
+                });
+
+                setTimeout(function() {
+                    if (!firstFrameShown) {
+                        showFirstFrame();
+                    }
+                }, 2000);
+            }
+
+            // ============================================================
+            // EVENTO: CLIC EN PORTADA
+            // ============================================================
             startScreen.addEventListener('click', function() {
                 const startContent = document.querySelector('.start-content');
                 startContent.classList.add('fade-out');
@@ -800,22 +994,44 @@
                 }, 450);
             });
 
-            /* ============================================= */
-            /* CERRAR INVITACIÓN AL CLIC FUERA              */
-            /* ============================================= */
+            // ============================================================
+            // EVENTO: CERRAR INVITACIÓN
+            // ============================================================
             invitationOverlay.addEventListener('click', function(e) {
-                if (e.target === this) {
+                if (e.target === this || e.target.closest('.invitation-wrapper') === null) {
                     this.classList.remove('active');
                 }
             });
 
-            /* ============================================= */
-            /* INICIALIZACIÓN                                */
-            /* ============================================= */
-            setupVideo();
+            // ============================================================
+            // BOTÓN "AÑADIR AL CALENDARIO"
+            // ============================================================
+            document.getElementById('addToCalendar').addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const fecha = new Date(2026, 9, 12);
+                const startDate = fecha.toISOString().replace(/-|:|\.\d+/g, '');
+                const endDate = new Date(fecha.getTime() + 4 * 60 * 60 * 1000).toISOString().replace(/-|:|\.\d+/g, '');
+                
+                const titulo = encodeURIComponent('Boda Juan Pablo Mier Velásquez y Viviana Arévalo Camacho');
+                const descripcion = encodeURIComponent('Celebración de la boda de Juan Pablo y Viviana');
+                const ubicacion = encodeURIComponent('Hacienda Santa Maria');
+                
+                const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${titulo}&dates=${startDate}/${endDate}&details=${descripcion}&location=${ubicacion}`;
+                
+                window.open(url, '_blank');
+            });
+
+            // ============================================================
+            // INICIALIZACIÓN
+            // ============================================================
+            setupVideos();
             setTimeout(showFirstFrame, 100);
 
-            console.log('✅ Invitación de Boda J&V · Versión optimizada para móviles');
+            console.log('✅ BUCLE OPTIMIZADO CON requestAnimationFrame - 3.8 segundos');
+            console.log('✅ Música de inicio: "musica inicio.mp3" (se reproduce 1 SEGUNDO después del video)');
+            console.log('✅ Música principal: "musica-boda.mp3" (comienza en ' + MUSIC_START_TIME + 's)');
 
         })();
     </script>
