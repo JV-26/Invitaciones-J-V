@@ -26,7 +26,15 @@
 
     <style>
         /* ===== RESET & BASE ===== */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+        }
 
         @font-face {
             font-family: 'Papillion';
@@ -50,35 +58,21 @@
             --gold-12: #261300;
         }
 
-        /* ===== MOVIMIENTO DEL METAL ===== */
         @keyframes moltenGold {
             0% { background-position: 0% center; }
             50% { background-position: 100% center; }
             100% { background-position: 0% center; }
         }
 
-        /* ===== REFLEJO PRINCIPAL ===== */
-        @keyframes goldReflection {
-            0% { left: -80%; opacity: 0; }
-            15% { opacity: .95; }
-            50% { opacity: 1; }
-            85% { opacity: .9; }
-            100% { left: 180%; opacity: 0; }
-        }
-
-        /* ===== DESTELLOS ===== */
-        @keyframes sparkle {
-            0%, 100% { opacity: 0; transform: scale(.4); }
-            50% { opacity: 1; transform: scale(1); }
-        }
-
-        /* ===== BRILLO GENERAL ===== */
         @keyframes glow {
-            0% { filter: brightness(1) contrast(1.02) saturate(1.05); }
-            25% { filter: brightness(1.08) contrast(1.06) saturate(1.12); }
-            50% { filter: brightness(1.16) contrast(1.12) saturate(1.18); }
-            75% { filter: brightness(1.08) contrast(1.06) saturate(1.12); }
-            100% { filter: brightness(1) contrast(1.02) saturate(1.05); }
+            0% { filter: brightness(1) saturate(1); }
+            50% { filter: brightness(1.28) saturate(1.35); }
+            100% { filter: brightness(1) saturate(1); }
+        }
+
+        @keyframes mobileModal {
+            0% { transform: translateY(100%); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
         }
 
         body {
@@ -168,15 +162,18 @@
         .start-content.fade-out .click-hint {
             animation: fadeOutQuick 0.4s ease forwards;
         }
-        .start-content.fade-out .initials { animation-delay: 0.1s; }
-        .start-content.fade-out .click-hint { animation-delay: 0.2s; }
+        .start-content.fade-out .initials {
+            animation-delay: 0.1s;
+        }
+        .start-content.fade-out .click-hint {
+            animation-delay: 0.2s;
+        }
 
         @keyframes fadeOutQuick {
             0% { opacity: 1; transform: scale(1); }
             100% { opacity: 0; transform: scale(0.95); }
         }
 
-        /* ===== LUZ AMBIENTAL ===== */
         .start-content::before {
             content: '';
             position: absolute;
@@ -185,7 +182,11 @@
             transform: translate(-50%, -50%);
             width: 140%;
             height: 100%;
-            background: radial-gradient(ellipse at 50% 40%, rgba(255, 200, 80, 0.06) 0%, rgba(255, 180, 50, 0.03) 30%, rgba(255, 160, 30, 0.01) 60%, transparent 80%);
+            background: radial-gradient(ellipse at 50% 40%, 
+                rgba(255, 200, 80, 0.06) 0%,
+                rgba(255, 180, 50, 0.03) 30%,
+                rgba(255, 160, 30, 0.01) 60%,
+                transparent 80%);
             pointer-events: none;
             z-index: 0;
             animation: ambientGlow 5s ease-in-out infinite;
@@ -196,104 +197,71 @@
             50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
         }
 
-        /* ===== TEXTO CON PLUMA REALISTA ===== */
         .welcome-text {
             position: relative;
-            display: block;
-            width: min(92vw, 1100px);
-            height: auto;
-            overflow: visible;
-        }
-        .welcome-text svg {
-            display: block;
-            width: 100%;
-            height: auto;
-            overflow: visible;
+            display: inline-block;
+            font-family: 'Papillion', 'Great Vibes', cursive;
+            font-size: clamp(22px, 7vw, 65px);
+            font-style: italic;
+            letter-spacing: 3px;
+            line-height: 2.1;
+            color: transparent;
+            background: linear-gradient(100deg,
+                #3a1a00 0%, #6a3b00 6%, #925900 11%, #b77900 16%,
+                #d89b00 23%, #ffc800 31%, #fff0a5 37%, #ffffff 41%,
+                #fff4b0 45%, #ffd44b 50%, #c98d00 58%, #8d5300 68%,
+                #5b3100 78%, #d49a00 88%, #fff2b0 96%, #d18b00 100%);
+            background-size: 350% 100%;
+            background-position: center;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: moltenGold 8s linear infinite, glow 5s ease-in-out infinite;
+            text-shadow: 0 1px 0 rgba(255,210,60,.55),
+                0 -1px 0 rgba(255,255,255,.55),
+                0 2px 2px rgba(255,220,80,.70),
+                1px 2px 0 rgba(170,110,0,.50),
+                2px 3px 0 rgba(140,85,0,.50),
+                4px 5px 8px rgba(80,40,0,.35),
+                0 10px 18px rgba(0,0,0,.35),
+                0 18px 40px rgba(0,0,0,.28),
+                0 0 18px rgba(255,210,60,.55);
+            filter: drop-shadow(0 0 8px rgba(255,220,90,.45)) drop-shadow(0 6px 16px rgba(0,0,0,.35));
         }
 
         .initials {
             position: relative;
-            display: block;
-            width: min(78vw, 420px);
-            height: auto;
-            overflow: visible;
-        }
-        .initials svg {
-            display: block;
-            width: 100%;
-            height: auto;
-            overflow: visible;
-        }
-
-        /* ===== TEXTO ESCRITO ===== */
-        .writing-text {
+            display: inline-block;
             font-family: 'Papillion', 'Great Vibes', cursive;
-            font-size: 62px;
-            font-style: italic;
-            letter-spacing: 4px;
-            paint-order: stroke fill;
-            stroke: url(#goldWelcome);
-            stroke-width: 1.5px;
-            stroke: #E5B54D;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            stroke-dasharray: 5000;
-            stroke-dashoffset: 5000;
-            opacity: 1;
-            animation:
-                escribirTrazo 5.5s cubic-bezier(.65,0,.35,1) forwards,
-                rellenarTexto .8s ease forwards 4.9s,
-                glow 4s ease-in-out infinite;
-            filter:
-                drop-shadow(0 0 2px #fff7d5)
-                drop-shadow(0 0 8px rgba(255,220,120,.5))
-                drop-shadow(0 0 15px rgba(215,160,40,.35));
+            font-size: clamp(50px, 14vw, 75px);
+            line-height: 1;
+            letter-spacing: 10px;
+            color: transparent;
+            background: linear-gradient(95deg,
+                #2d1400 0%, #4e2900 4%, #7a4600 8%, #a86400 13%,
+                #cf8c00 20%, #f0b900 28%, #ffe175 35%, #ffffff 40%,
+                #fff7c8 45%, #ffd84c 52%, #d39700 60%, #9a5d00 70%,
+                #693700 80%, #c88b00 90%, #fff0aa 100%);
+            background-size: 450% 100%;
+            background-position: center;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: moltenGold 7s linear infinite, glow 4s ease-in-out infinite;
+            text-shadow: 0 1px 0 rgba(255,215,80,.70),
+                0 -1px 0 rgba(255,215,80,.70),
+                0 0 3px rgba(252, 252, 252, 0.9),
+                2px 2px 0 rgba(190,120,0,.45),
+                4px 4px 0 rgba(140,80,0,.40),
+                6px 6px 10px rgba(90,45,0,.35),
+                0 15px 25px rgba(0,0,0,.40),
+                0 25px 50px rgba(0,0,0,.35),
+                0 0 20px rgba(255,215,80,.70);
+            filter: drop-shadow(0 0 8px rgba(255,225,120,.70))
+                drop-shadow(0 0 18px rgba(255,195,50,.45))
+                drop-shadow(0 10px 22px rgba(0,0,0,.40));
         }
 
-        @keyframes escribirTrazo {
-            0% { stroke-dashoffset: 5000; }
-            100% { stroke-dashoffset: 0; }
-        }
-
-        @keyframes rellenarTexto {
-            0% { fill-opacity: 0; }
-            100% { fill-opacity: 1; }
-        }
-
-        /* ===== INICIALES ===== */
-        .initials .writing-text {
-            font-family: 'Papillion', 'Great Vibes', cursive;
-            font-size: 200px;
-            letter-spacing: 4px;
-            fill: url(#goldWelcome);
-            fill-opacity: 1;
-            stroke: #E8BD5A;
-            stroke-width: 1.8px;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            stroke-dasharray: 5000;
-            stroke-dashoffset: 5000;
-            filter:
-                drop-shadow(0 0 2px #fff8dc)
-                drop-shadow(0 0 8px rgba(255,220,120,.5))
-                drop-shadow(0 0 15px rgba(215,160,40,.35));
-            animation:
-                escribirInicialesTrazo 3.8s cubic-bezier(.65,0,.35,1) forwards 5.8s,
-                rellenarIniciales .8s ease forwards 9.1s,
-                glow 4s ease-in-out infinite;
-        }
-
-        @keyframes escribirInicialesTrazo {
-            0% { stroke-dashoffset: 5000; }
-            100% { stroke-dashoffset: 0; }
-        }
-
-        @keyframes rellenarIniciales {
-            0% { fill-opacity: 0; }
-            100% { fill-opacity: 1; }
-        }
-
-        /* ===== CLICK HINT ===== */
         .click-hint {
             position: absolute;
             bottom: 40px;
@@ -364,6 +332,12 @@
             opacity: 0;
             animation: desenrollar 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
             transform-origin: center center;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            padding-top: calc(25px + env(safe-area-inset-top));
+            padding-bottom: calc(25px + env(safe-area-inset-bottom));
+            padding-left: 20px;
+            padding-right: 20px;
         }
 
         @keyframes desenrollar {
@@ -379,7 +353,8 @@
             font-size: 3.2rem;
             font-weight: 400;
             letter-spacing: 8px;
-            background: linear-gradient(180deg, #ebce41 0%, #ffe89c 15%, #d8a92d 38%, #8c6512 65%, #977f07 100%);
+            background: linear-gradient(180deg,
+                #ebce41 0%, #ffe89c 15%, #d8a92d 38%, #8c6512 65%, #977f07 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 15px;
@@ -396,10 +371,12 @@
             font-size: 2.35rem;
             line-height: 1.25;
             letter-spacing: 1px;
-            background: linear-gradient(180deg, #644a02, #a37907, #926c03, #a56c09, #1f1700, #ac7f06);
+            background: linear-gradient(180deg,
+                #644a02, #a37907, #926c03, #a56c09, #1f1700, #ac7f06);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 18px rgba(255, 215, 100, 0.18), 0 5px 15px rgba(0, 0, 0, 0.25);
+            text-shadow: 0 0 18px rgba(255, 215, 100, 0.18),
+                0 5px 15px rgba(0, 0, 0, 0.25);
         }
 
         .invitation-card .description {
@@ -451,7 +428,7 @@
             border-radius: 10px;
         }
 
-        /* ===== BOTONES ===== */
+        /* ===== BOTONES ELEGANTES ===== */
         .button-group {
             display: flex;
             justify-content: center;
@@ -550,10 +527,19 @@
             transform: translateY(-5px) scale(1.02);
             box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5), 0 0 35px rgba(212, 175, 55, 0.15);
         }
-        .btn:hover .shine { left: 145%; }
-        .btn:hover .ornament { opacity: 1; transform: rotate(180deg) scale(1.2); }
-        .btn:hover::before { background: linear-gradient(145deg, #f5e68a, #d4af37, #f5e68a, #d4af37, #f5e68a); }
-        .btn:active { transform: scale(0.97); }
+        .btn:hover .shine {
+            left: 145%;
+        }
+        .btn:hover .ornament {
+            opacity: 1;
+            transform: rotate(180deg) scale(1.2);
+        }
+        .btn:hover::before {
+            background: linear-gradient(145deg, #f5e68a, #d4af37, #f5e68a, #d4af37, #f5e68a);
+        }
+        .btn:active {
+            transform: scale(0.97);
+        }
 
         /* ===== CONTADOR ===== */
         .countdown-container {
@@ -607,594 +593,1208 @@
             text-transform: uppercase;
         }
 
-        /*======================================================
-              MODAL PREMIUM - WEDDING LUXURY EDITION
-        ======================================================*/
+        /* =========================================================
+                MODAL PRINCIPAL DE RECOMENDACIONES DE LUJO
+        ========================================================= */
 
         #recommendationsModal {
             position: fixed;
             inset: 0;
+            z-index: 1000;
             display: none;
-            justify-content: center;
             align-items: center;
-            padding: 30px;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            z-index: 999;
-            overflow: auto;
+            justify-content: center;
+            padding: 24px;
+            background:
+                radial-gradient(circle at 50% 20%,
+                    rgba(112, 12, 37, 0.24),
+                    transparent 42%),
+                rgba(0, 0, 0, 0.86);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
         }
 
         #recommendationsModal.active {
             display: flex;
-            animation: fadeModal .5s ease;
         }
 
-        @keyframes fadeModal {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+        .recommendations-luxury-modal {
+            --recommend-gold: #d4af37;
+            --recommend-light-gold: #f4df98;
+            --recommend-burgundy: #650b25;
+            --recommend-cream: #f4eadb;
+            --recommend-dark: #100b0b;
 
-        .modal-content {
             position: relative;
-            width: 100%;
-            max-width: 950px;
-            background: linear-gradient(160deg, rgba(25, 20, 15, 0.98), rgba(10, 8, 6, 0.99));
-            border-radius: 48px;
-            overflow: hidden;
-            border: 1.5px solid rgba(212, 175, 55, 0.3);
-            box-shadow: 
-                0 50px 150px rgba(0, 0, 0, 0.8),
-                0 0 80px rgba(212, 175, 55, 0.06),
-                inset 0 0 60px rgba(255, 215, 100, 0.02);
-            padding: 55px 60px 45px;
-            animation: modalLuxury .7s cubic-bezier(0.2, 0.8, 0.2, 1);
-            max-height: 90vh;
+            width: min(920px, 100%);
+            max-height: 92vh;
+            overflow-x: hidden;
             overflow-y: auto;
+            padding: 60px 64px 54px;
+            border: 1px solid rgba(235, 201, 107, 0.48);
+            border-radius: 38px 10px 38px 10px;
+            background:
+                linear-gradient(rgba(13, 9, 9, 0.96), rgba(13, 9, 9, 0.98)),
+                radial-gradient(circle at top, rgba(111, 17, 43, 0.26), transparent 45%);
+            box-shadow:
+                0 45px 120px rgba(0, 0, 0, 0.88),
+                0 0 0 5px rgba(212, 175, 55, 0.035),
+                inset 0 0 70px rgba(103, 10, 34, 0.16);
+            animation: recommendationsEntrance 0.7s cubic-bezier(.2, .75, .25, 1);
+            scroll-behavior: smooth;
         }
 
-        .modal-content::-webkit-scrollbar {
-            width: 6px;
-        }
-        .modal-content::-webkit-scrollbar-track {
-            background: rgba(212, 175, 55, 0.05);
-            border-radius: 10px;
-        }
-        .modal-content::-webkit-scrollbar-thumb {
-            background: rgba(212, 175, 55, 0.3);
-            border-radius: 10px;
-        }
-
-        @keyframes modalLuxury {
-            0% { opacity: 0; transform: translateY(60px) scale(0.95); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        .modal-content::before {
+        .recommendations-luxury-modal::before,
+        .recommendations-luxury-modal::after {
             content: "";
             position: absolute;
-            inset: 0;
-            background: 
-                url("https://www.transparenttextures.com/patterns/marble.png"),
-                radial-gradient(ellipse at 30% 20%, rgba(212, 175, 55, 0.03), transparent 70%);
-            opacity: 0.12;
             pointer-events: none;
         }
 
-        .modal-content::after {
-            content: "";
-            position: absolute;
-            inset: 20px;
+        .recommendations-luxury-modal::before {
+            inset: 10px;
             border: 1px solid rgba(212, 175, 55, 0.12);
-            border-radius: 32px;
-            pointer-events: none;
+            border-radius: 30px 6px 30px 6px;
         }
 
-        /* ===== TÍTULO PREMIUM ===== */
-        .modal-content h2 {
-            font-family: 'Papillion', 'Great Vibes', cursive;
-            font-size: 54px;
-            font-weight: 400;
-            letter-spacing: 8px;
-            text-align: center;
-            margin-bottom: 8px;
-            background: linear-gradient(180deg, #FFF8E0, #F5D68A, #D4A530, #F0D080, #FFF8E8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 40px rgba(212, 175, 55, 0.2);
+        .recommendations-luxury-modal::after {
+            top: 0;
+            left: -50%;
+            width: 38%;
+            height: 100%;
+            background: linear-gradient(
+                100deg,
+                transparent,
+                rgba(255, 239, 188, 0.045),
+                transparent
+            );
+            transform: skewX(-18deg);
+            animation: modalLuxuryReflection 9s ease-in-out infinite;
+        }
+
+        @keyframes recommendationsEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(35px) scale(0.96);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes modalLuxuryReflection {
+            0%,
+            62% {
+                left: -55%;
+            }
+
+            100% {
+                left: 145%;
+            }
+        }
+
+        /* Scrollbar */
+
+        .recommendations-luxury-modal::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .recommendations-luxury-modal::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .recommendations-luxury-modal::-webkit-scrollbar-thumb {
+            border-radius: 20px;
+            background: linear-gradient(
+                var(--recommend-light-gold),
+                var(--recommend-gold)
+            );
+        }
+
+        /* Botón cerrar */
+
+        .recommendations-close {
+            position: sticky;
+            top: 0;
+            float: right;
+            z-index: 20;
+            width: 44px;
+            height: 44px;
+            margin-top: -36px;
+            margin-right: -38px;
+            border: 1px solid rgba(212, 175, 55, 0.42);
+            border-radius: 50%;
+            background: rgba(20, 12, 12, 0.92);
+            color: var(--recommend-light-gold);
+            font-family: Georgia, serif;
+            font-size: 1.65rem;
+            line-height: 1;
+            cursor: pointer;
+            transition:
+                transform 0.35s ease,
+                border-color 0.35s ease,
+                box-shadow 0.35s ease;
+        }
+
+        .recommendations-close:hover {
+            transform: rotate(90deg);
+            border-color: var(--recommend-light-gold);
+            box-shadow: 0 0 22px rgba(212, 175, 55, 0.2);
+        }
+
+        /* =========================================================
+                            ENCABEZADO
+        ========================================================= */
+
+        .recommendations-hero {
             position: relative;
-            z-index: 1;
+            z-index: 2;
+            max-width: 760px;
+            margin: 0 auto 58px;
+            text-align: center;
         }
 
-        /* ===== SEPARADOR ORNAMENTAL ===== */
-        .modal-divider {
+        .recommendations-overline {
+            color: var(--recommend-gold);
+            font-size: 1.1rem;
+            letter-spacing: 10px;
+            opacity: 0.85;
+        }
+
+        .recommendations-hero h2 {
+            margin: 8px 0 12px;
+            font-family: "Papillion", "Great Vibes", cursive;
+            font-size: clamp(3rem, 7vw, 5rem);
+            font-weight: 400;
+            line-height: 1.1;
+            letter-spacing: 3px;
+            color: transparent;
+            background: linear-gradient(
+                180deg,
+                #fff3bf 0%,
+                #e8c963 30%,
+                #bd8b1d 68%,
+                #f1d77c 100%
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.45));
+        }
+
+        .recommendations-ornament {
             display: flex;
+            align-items: center;
             justify-content: center;
+            gap: 14px;
+            margin: 15px auto 25px;
+            color: var(--recommend-gold);
+        }
+
+        .recommendations-ornament span {
+            width: min(145px, 28vw);
+            height: 1px;
+            background: linear-gradient(
+                to right,
+                transparent,
+                rgba(212, 175, 55, 0.8),
+                transparent
+            );
+        }
+
+        .recommendations-ornament b {
+            font-size: 1rem;
+        }
+
+        .recommendations-hero p {
+            margin: 0;
+            color: #eaddcf;
+            font-family: "Cormorant Garamond", Georgia, serif;
+            font-size: 1.2rem;
+            line-height: 1.9;
+            letter-spacing: 0.35px;
+        }
+
+        .recommendations-hero strong {
+            color: var(--recommend-light-gold);
+        }
+
+        /* =========================================================
+                        ESTRUCTURA DE SECCIONES
+        ========================================================= */
+
+        .protocol-section {
+            position: relative;
+            z-index: 2;
+        }
+
+        .protocol-heading {
+            display: flex;
             align-items: center;
             gap: 20px;
-            margin: 15px 0 28px;
-            position: relative;
-            z-index: 1;
-        }
-        .modal-divider .line {
-            flex: 1;
-            height: 1px;
-            max-width: 120px;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
-        }
-        .modal-divider .ornament {
-            font-size: 28px;
-            color: rgba(212, 175, 55, 0.5);
-            letter-spacing: 12px;
+            margin-bottom: 32px;
         }
 
-        /* ===== TEXTO ===== */
-        .modal-content p {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 20px;
-            line-height: 2;
-            color: #E8DDD0;
-            text-align: justify;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-            position: relative;
-            z-index: 1;
-            margin-bottom: 16px;
-        }
-        .modal-content p strong {
-            color: #F0D080;
-            font-weight: 600;
-        }
-
-        /* ===== SUBTÍTULOS CON LÍNEAS ===== */
-        .modal-subtitle {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 22px;
-            font-weight: 600;
-            letter-spacing: 5px;
-            color: #EAC86A;
-            margin: 35px 0 18px;
-            text-transform: uppercase;
+        .protocol-number {
             display: flex;
             align-items: center;
-            gap: 25px;
-            position: relative;
-            z-index: 1;
-        }
-        .modal-subtitle::before,
-        .modal-subtitle::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            max-width: 80px;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.35), transparent);
-        }
-
-        /* ===== TARJETAS DE LUJO ===== */
-        .luxury-card {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
-            border: 1px solid rgba(212, 175, 55, 0.15);
-            border-radius: 24px;
-            padding: 30px 35px;
-            margin: 18px 0 8px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 215, 100, 0.05);
-            transition: all 0.4s ease;
-            position: relative;
-            z-index: 1;
-        }
-        .luxury-card:hover {
-            transform: translateY(-3px);
-            border-color: rgba(212, 175, 55, 0.35);
-            box-shadow: 0 12px 45px rgba(212, 175, 55, 0.08), 0 8px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        /* ===== TABLA DE VESTIMENTA CON SILUETAS ===== */
-        .attire-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin: 0;
-        }
-
-        .attire-column {
-            text-align: center;
-        }
-
-        .attire-column .silhouette {
-            display: flex;
             justify-content: center;
-            align-items: center;
-            margin-bottom: 12px;
+            min-width: 56px;
+            height: 56px;
+            border: 1px solid rgba(212, 175, 55, 0.34);
+            border-radius: 50%;
+            color: var(--recommend-gold);
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.15rem;
+            letter-spacing: 1px;
+            background: radial-gradient(
+                circle,
+                rgba(212, 175, 55, 0.09),
+                transparent 68%
+            );
         }
 
-        .attire-column .silhouette svg {
-            width: 80px;
-            height: 160px;
-            filter: drop-shadow(0 4px 15px rgba(212, 175, 55, 0.15));
+        .protocol-heading > div {
+            flex: 1;
         }
 
-        .attire-column .column-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #EAC86A;
+        .protocol-kicker {
+            margin: 0 0 2px;
+            color: #bfae9c;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 0.82rem;
             letter-spacing: 3px;
             text-transform: uppercase;
-            margin-bottom: 10px;
         }
 
-        .attire-column ul {
-            list-style: none;
-            padding: 0;
+        .protocol-heading h3 {
             margin: 0;
+            color: var(--recommend-light-gold);
+            font-family: "Cormorant Garamond", serif;
+            font-size: clamp(1.9rem, 4vw, 2.65rem);
+            font-weight: 600;
+            letter-spacing: 1px;
         }
 
-        .attire-column ul li {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.95rem;
-            color: #D5C8B8;
-            padding: 6px 0;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.06);
-            letter-spacing: 0.5px;
+        /* Separadores */
+
+        .royal-separator {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin: 62px 0;
+            color: var(--recommend-gold);
         }
 
-        .attire-column ul li:last-child {
+        .royal-separator span {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(
+                to right,
+                transparent,
+                rgba(212, 175, 55, 0.42),
+                transparent
+            );
+        }
+
+        .royal-separator b {
+            font-weight: 400;
+            letter-spacing: 6px;
+        }
+
+        /* =========================================================
+                        IMAGEN DE LAS SILUETAS
+        ========================================================= */
+
+        .silhouettes-stage {
+            position: relative;
+            margin: 15px auto 38px;
+            padding: 22px 18px 8px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .silhouettes-stage::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 50px;
+            width: 78%;
+            height: 1px;
+            transform: translateX(-50%);
+            background: linear-gradient(
+                to right,
+                transparent,
+                rgba(212, 175, 55, 0.38),
+                transparent
+            );
+        }
+
+        .silhouettes-glow {
+            position: absolute;
+            top: 17%;
+            left: 50%;
+            width: 70%;
+            height: 64%;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            background: radial-gradient(
+                ellipse,
+                rgba(121, 12, 43, 0.32),
+                rgba(212, 175, 55, 0.08) 42%,
+                transparent 72%
+            );
+            filter: blur(10px);
+        }
+
+        .silhouettes-image {
+            position: relative;
+            z-index: 2;
+            display: block;
+            width: 100%;
+            max-width: 760px;
+            max-height: 580px;
+            margin: 0 auto;
+            object-fit: contain;
+            filter:
+                drop-shadow(0 25px 30px rgba(0, 0, 0, 0.65))
+                drop-shadow(0 0 18px rgba(212, 175, 55, 0.09));
+            transition:
+                transform 0.6s cubic-bezier(.2, .7, .2, 1),
+                filter 0.6s ease;
+        }
+
+        .silhouettes-stage:hover .silhouettes-image {
+            transform: scale(1.018);
+            filter:
+                drop-shadow(0 28px 38px rgba(0, 0, 0, 0.75))
+                drop-shadow(0 0 24px rgba(212, 175, 55, 0.14));
+        }
+
+        .silhouettes-stage figcaption {
+            position: relative;
+            z-index: 3;
+            margin-top: 14px;
+            color: #bfae9c;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1rem;
+            font-style: italic;
+            letter-spacing: 0.8px;
+        }
+
+        /* =========================================================
+                        VESTIMENTA EN DOS COLUMNAS
+        ========================================================= */
+
+        .dress-guidelines {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        .dress-guideline-card {
+            position: relative;
+            padding: 30px 28px 26px;
+            border: 1px solid rgba(212, 175, 55, 0.18);
+            border-radius: 24px 6px 24px 6px;
+            background:
+                linear-gradient(145deg,
+                    rgba(102, 12, 37, 0.12),
+                    rgba(255, 255, 255, 0.018));
+            box-shadow:
+                inset 0 1px rgba(255, 255, 255, 0.035),
+                0 14px 34px rgba(0, 0, 0, 0.22);
+            overflow: hidden;
+            transition:
+                transform 0.4s ease,
+                border-color 0.4s ease,
+                box-shadow 0.4s ease;
+        }
+
+        .dress-guideline-card::after {
+            content: "";
+            position: absolute;
+            top: -80%;
+            left: -90%;
+            width: 45%;
+            height: 250%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.08),
+                transparent
+            );
+            transform: rotate(24deg);
+            transition: left 1.3s ease;
+        }
+
+        .dress-guideline-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(212, 175, 55, 0.43);
+            box-shadow:
+                0 20px 42px rgba(0, 0, 0, 0.32),
+                0 0 25px rgba(212, 175, 55, 0.06);
+        }
+
+        .dress-guideline-card:hover::after {
+            left: 155%;
+        }
+
+        .dress-card-heading {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+
+        .dress-card-symbol {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 49px;
+            height: 49px;
+            border: 1px solid rgba(212, 175, 55, 0.42);
+            border-radius: 50%;
+            color: var(--recommend-light-gold);
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.35rem;
+            background: rgba(212, 175, 55, 0.055);
+        }
+
+        .dress-card-heading small {
+            display: block;
+            margin-bottom: 1px;
+            color: #a99a8b;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .dress-card-heading h4 {
+            margin: 0;
+            color: var(--recommend-light-gold);
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.75rem;
+            font-weight: 600;
+        }
+
+        .luxury-detail-list {
+            display: grid;
+            gap: 0;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .luxury-detail-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-height: 48px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.085);
+            color: #e9dfd4;
+            font-family: "Cormorant Garamond", Georgia, serif;
+            font-size: 1.08rem;
+            line-height: 1.45;
+        }
+
+        .luxury-detail-list li:last-child {
             border-bottom: none;
         }
 
-        .attire-column ul li::before {
-            content: "✦ ";
-            color: #EAC86A;
-            opacity: 0.5;
+        .list-mark {
+            color: var(--recommend-gold);
+            font-size: 0.72rem;
         }
 
-        /* ===== NOTA ===== */
-        .attire-note {
-            font-size: 0.95rem !important;
-            color: #C5B8A5 !important;
-            font-style: italic;
-            background: rgba(212, 175, 55, 0.04);
-            padding: 14px 18px !important;
-            border-radius: 12px;
-            border-left: 3px solid rgba(212, 175, 55, 0.25);
-            margin-top: 6px !important;
+        /* Nota del jardín */
+
+        .garden-note {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 24px;
+            margin-top: 30px;
+            padding: 28px 30px;
+            border: 1px solid rgba(212, 175, 55, 0.19);
+            border-left: 3px solid var(--recommend-gold);
+            border-radius: 4px 20px 20px 4px;
+            background:
+                linear-gradient(90deg,
+                    rgba(106, 12, 39, 0.19),
+                    rgba(255, 255, 255, 0.018));
         }
 
-        /* ===== CÍRCULOS DE COLORES ===== */
-        .color-circle-group {
+        .garden-note-icon {
             display: flex;
-            gap: 30px;
-            justify-content: center;
             align-items: center;
-            margin: 15px 0 5px;
-            flex-wrap: wrap;
-            position: relative;
-            z-index: 1;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            color: var(--recommend-gold);
+            font-size: 1.7rem;
         }
-        .color-circle {
+
+        .garden-note-content span {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--recommend-light-gold);
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.42rem;
+            font-weight: 600;
+            letter-spacing: 0.6px;
+        }
+
+        .garden-note-content p {
+            margin: 0;
+            color: #ded3c8;
+            font-family: "Cormorant Garamond", Georgia, serif;
+            font-size: 1.03rem;
+            line-height: 1.85;
+            text-align: justify;
+        }
+
+        /* =========================================================
+                        COLORES RESERVADOS
+        ========================================================= */
+
+        .reserved-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: clamp(34px, 8vw, 80px);
+            margin-top: 38px;
+        }
+
+        .reserved-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            gap: 15px;
+            min-width: 105px;
+            transition: transform 0.35s ease;
         }
-        .color-circle .circle {
-            width: 56px;
-            height: 56px;
+
+        .reserved-item:hover {
+            transform: translateY(-7px);
+        }
+
+        .reserved-circle {
+            position: relative;
+            width: 94px;
+            height: 94px;
+            border: 3px solid var(--recommend-gold);
             border-radius: 50%;
-            border: 2.5px solid rgba(212, 175, 55, 0.4);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
+            box-shadow:
+                0 13px 26px rgba(0, 0, 0, 0.42),
+                0 0 20px rgba(212, 175, 55, 0.12),
+                inset 0 9px 12px rgba(255, 255, 255, 0.15),
+                inset 0 -14px 18px rgba(0, 0, 0, 0.26);
         }
-        .color-circle .circle:hover {
-            transform: scale(1.12);
-            border-color: #EAC86A;
+
+        .reserved-circle::before {
+            content: "";
+            position: absolute;
+            top: 13px;
+            left: 18px;
+            width: 34px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.38);
+            filter: blur(2px);
+            transform: rotate(-22deg);
         }
-        .color-circle .circle-label {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.8rem;
-            color: #B8A88A;
-            letter-spacing: 2px;
+
+        .burgundy-circle {
+            background: radial-gradient(
+                circle at 34% 27%,
+                #a32647 0%,
+                #76112e 38%,
+                #4b061a 72%,
+                #250008 100%
+            );
+        }
+
+        .white-circle {
+            background: radial-gradient(
+                circle at 34% 27%,
+                #ffffff 0%,
+                #f2eee8 40%,
+                #d7d0c8 74%,
+                #aaa39d 100%
+            );
+        }
+
+        .gold-circle {
+            background: radial-gradient(
+                circle at 34% 27%,
+                #fff3b8 0%,
+                #e0bd4f 38%,
+                #ae7b12 72%,
+                #624000 100%
+            );
+        }
+
+        .reserved-item span {
+            color: var(--recommend-light-gold);
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.32rem;
+            font-weight: 600;
+            letter-spacing: 1.4px;
+        }
+
+        /* =========================================================
+                        ACOMPAÑAMIENTOS
+        ========================================================= */
+
+        .companion-panel {
+            display: grid;
+            grid-template-columns: 145px 1fr;
+            align-items: center;
+            gap: 32px;
+            padding: 34px 38px;
+            border: 1px solid rgba(212, 175, 55, 0.19);
+            border-radius: 6px 26px 6px 26px;
+            background:
+                linear-gradient(135deg,
+                    rgba(102, 12, 37, 0.15),
+                    rgba(255, 255, 255, 0.018));
+        }
+
+        .companion-monogram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 125px;
+            height: 125px;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 50%;
+            background: radial-gradient(
+                circle,
+                rgba(212, 175, 55, 0.1),
+                transparent 68%
+            );
+        }
+
+        .companion-monogram span {
+            color: var(--recommend-light-gold);
+            font-family: "Cormorant Garamond", serif;
+            font-size: 3rem;
+            line-height: 0.9;
+        }
+
+        .companion-monogram small {
+            margin-top: 8px;
+            color: #baaa99;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 0.72rem;
+            letter-spacing: 1.3px;
             text-transform: uppercase;
         }
 
-        /* ===== HORARIO ===== */
-        .schedule-grid {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 6px 25px;
+        .companion-panel p {
             margin: 0;
-            padding: 0;
+            color: #e4d9ce;
+            font-family: "Cormorant Garamond", Georgia, serif;
+            font-size: 1.1rem;
+            line-height: 1.9;
+            text-align: justify;
         }
-        .schedule-grid .time {
-            color: #EAC86A;
+
+        .companion-panel strong {
+            color: var(--recommend-light-gold);
             font-weight: 600;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.05rem;
-            letter-spacing: 1px;
-        }
-        .schedule-grid .event {
-            color: #D5C8B8;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.05rem;
-            letter-spacing: 0.5px;
         }
 
-        /* ===== BOTÓN CERRAR ===== */
-        .modal-close {
-            position: absolute;
-            top: 22px;
-            right: 28px;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            border: 1.5px solid rgba(212, 175, 55, 0.25);
-            background: rgba(255, 255, 255, 0.03);
-            color: #E2C060;
-            font-size: 22px;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            z-index: 10;
-            display: flex;
+        /* =========================================================
+                        HORARIO DEL EVENTO
+        ========================================================= */
+
+        .schedule-location {
+            margin: -5px auto 36px;
+            color: #d7cbbf;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.08rem;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .schedule-location strong {
+            color: var(--recommend-light-gold);
+        }
+
+        .event-timeline {
+            display: grid;
+            gap: 8px;
+        }
+
+        .timeline-event {
+            display: grid;
+            grid-template-columns: 112px 46px 1fr;
             align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(4px);
-        }
-        .modal-close:hover {
-            transform: rotate(180deg);
-            background: #D4AF37;
-            color: #1A1510;
-            border-color: #D4AF37;
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+            min-height: 108px;
+            padding: 13px 24px;
+            border: 1px solid transparent;
+            border-radius: 18px 4px 18px 4px;
+            transition:
+                transform 0.35s ease,
+                border-color 0.35s ease,
+                background 0.35s ease;
         }
 
-        /* ===== BOTÓN RÚSTICO CONTACTO ===== */
-        .contact-wrapper {
-            margin-top: 8px;
-            padding-top: 12px;
+        .timeline-event:hover {
+            transform: translateX(7px);
+            border-color: rgba(212, 175, 55, 0.17);
+            background: rgba(255, 255, 255, 0.018);
+        }
+
+        .timeline-time {
+            text-align: right;
+        }
+
+        .timeline-time strong {
+            display: block;
+            color: var(--recommend-light-gold);
+            font-family: "Cormorant Garamond", serif;
+            font-size: 2.05rem;
+            font-weight: 600;
+            line-height: 1;
+        }
+
+        .timeline-time span {
+            display: block;
+            margin-top: 5px;
+            color: #a99a8b;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 0.78rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .timeline-line {
             position: relative;
-            z-index: 1;
+            display: flex;
+            justify-content: center;
+            height: 100%;
         }
 
-        .btn-rustic {
+        .timeline-line::before {
+            content: "";
+            position: absolute;
+            top: -18px;
+            bottom: -18px;
+            width: 1px;
+            background: rgba(212, 175, 55, 0.2);
+        }
+
+        .timeline-line span {
+            position: relative;
+            z-index: 2;
+            align-self: center;
+            width: 13px;
+            height: 13px;
+            border: 2px solid var(--recommend-gold);
+            border-radius: 50%;
+            background: var(--recommend-dark);
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.28);
+        }
+
+        .timeline-event:first-child .timeline-line::before {
+            top: 50%;
+        }
+
+        .timeline-event:last-child .timeline-line::before {
+            bottom: 50%;
+        }
+
+        .timeline-description small {
+            display: block;
+            margin-bottom: 3px;
+            color: #a99a8b;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 0.74rem;
+            letter-spacing: 2.4px;
+            text-transform: uppercase;
+        }
+
+        .timeline-description h4 {
+            margin: 0;
+            color: #eadfd4;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1.35rem;
+            font-weight: 500;
+            line-height: 1.35;
+        }
+
+        /* =========================================================
+                        CONTACTO CON LOS NOVIOS
+        ========================================================= */
+
+        .luxury-contact-section {
+            position: relative;
+            z-index: 2;
+            padding-bottom: 8px;
+            text-align: center;
+        }
+
+        .luxury-contact-section > p {
+            margin: 0;
+            color: #bbaa98;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1rem;
+            letter-spacing: 2.6px;
+            text-transform: uppercase;
+        }
+
+        .contact-heart {
+            margin: 12px 0 4px;
+            color: var(--recommend-gold);
+            font-size: 1.8rem;
+            filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.22));
+        }
+
+        .luxury-contact-section h3 {
+            margin: 0 0 28px;
+            color: var(--recommend-light-gold);
+            font-family: "Great Vibes", "Cormorant Garamond", cursive;
+            font-size: clamp(2.25rem, 5vw, 3.3rem);
+            font-weight: 400;
+        }
+
+        .luxury-contact-button {
+            position: relative;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            padding: 12px 28px;
+            gap: 14px;
+            min-height: 62px;
+            padding: 0 32px;
+            border: 1px solid rgba(239, 209, 122, 0.6);
             border-radius: 50px;
-            text-decoration: none;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 0.9rem;
+            overflow: hidden;
+            color: #fff2d0;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 1rem;
             font-weight: 600;
             letter-spacing: 2px;
+            text-decoration: none;
             text-transform: uppercase;
-            color: #EAC86A;
-            background: rgba(20, 16, 12, 0.8);
-            border: 1.5px solid rgba(212, 175, 55, 0.3);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(212, 175, 55, 0.1);
-            transition: all 0.35s ease;
-            backdrop-filter: blur(4px);
-            cursor: pointer;
+            background:
+                linear-gradient(
+                    135deg,
+                    #3d0617 0%,
+                    #6e102c 43%,
+                    #4b071b 76%,
+                    #2a020d 100%
+                );
+            box-shadow:
+                0 18px 36px rgba(0, 0, 0, 0.42),
+                0 0 25px rgba(124, 12, 45, 0.28),
+                inset 0 1px rgba(255, 255, 255, 0.09);
+            transition:
+                transform 0.4s cubic-bezier(.2, .7, .2, 1),
+                box-shadow 0.4s ease,
+                border-color 0.4s ease;
         }
-        .btn-rustic:hover {
-            transform: translateY(-3px);
-            border-color: #D4AF37;
-            background: rgba(30, 24, 18, 0.95);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15), inset 0 1px 0 rgba(212, 175, 55, 0.2);
-            color: #F5E68A;
-        }
-        .btn-rustic .icon {
-            font-size: 1.2rem;
-            color: #EAC86A;
-            opacity: 0.8;
-            transition: opacity 0.3s;
-        }
-        .btn-rustic:hover .icon { opacity: 1; }
 
-        /* ===== RESPONSIVE ===== */
+        .luxury-contact-button::before {
+            content: "";
+            position: absolute;
+            inset: 4px;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            border-radius: inherit;
+            pointer-events: none;
+        }
+
+        .contact-button-glow {
+            position: absolute;
+            top: -100%;
+            left: -35%;
+            width: 28%;
+            height: 300%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 242, 196, 0.35),
+                transparent
+            );
+            transform: rotate(22deg);
+            transition: left 1.2s ease;
+        }
+
+        .whatsapp-icon {
+            position: relative;
+            z-index: 2;
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        .luxury-contact-button > span:not(.contact-button-glow) {
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-arrow {
+            font-size: 1.8rem;
+            font-weight: 300;
+            line-height: 1;
+            transition: transform 0.35s ease;
+        }
+
+        .luxury-contact-button:hover {
+            transform: translateY(-5px);
+            border-color: var(--recommend-light-gold);
+            box-shadow:
+                0 24px 48px rgba(0, 0, 0, 0.5),
+                0 0 32px rgba(212, 175, 55, 0.15),
+                0 0 28px rgba(112, 12, 43, 0.32);
+        }
+
+        .luxury-contact-button:hover .contact-button-glow {
+            left: 125%;
+        }
+
+        .luxury-contact-button:hover .contact-arrow {
+            transform: translateX(5px);
+        }
+
+        /* =========================================================
+                            RESPONSIVE
+        ========================================================= */
+
         @media (max-width: 768px) {
-            .modal-content {
-                padding: 35px 25px 30px;
-                border-radius: 32px;
-                max-height: 92vh;
-            }
-            .modal-content h2 {
-                font-size: 38px;
-                letter-spacing: 5px;
-            }
-            .modal-content p {
-                font-size: 17px;
-                line-height: 1.9;
-            }
-            .modal-subtitle {
-                font-size: 18px;
-                letter-spacing: 3px;
-                gap: 15px;
-            }
-            .modal-subtitle::before,
-            .modal-subtitle::after {
-                max-width: 40px;
-            }
-            .luxury-card {
-                padding: 22px 20px;
-            }
-            .modal-divider .ornament {
-                font-size: 20px;
-                letter-spacing: 8px;
-            }
-            .modal-divider .line {
-                max-width: 60px;
-            }
-            .attire-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            .attire-column .silhouette svg {
-                width: 60px;
-                height: 120px;
-            }
-            .attire-column ul li {
-                font-size: 0.9rem;
-                padding: 4px 0;
-            }
-            .color-circle .circle {
-                width: 46px;
-                height: 46px;
-            }
-            .color-circle-group {
-                gap: 20px;
-            }
-            .schedule-grid {
-                gap: 4px 18px;
-            }
-            .schedule-grid .time {
-                font-size: 0.95rem;
-            }
-            .schedule-grid .event {
-                font-size: 0.95rem;
-            }
-            .modal-close {
-                top: 16px;
-                right: 20px;
-                width: 42px;
-                height: 42px;
-                font-size: 18px;
-            }
-            .btn-rustic {
-                padding: 10px 22px;
-                font-size: 0.8rem;
-            }
-            .attire-note {
-                font-size: 0.85rem !important;
-                padding: 12px 16px !important;
-            }
-        }
 
-        @media (max-width: 480px) {
-            .modal-content {
-                padding: 25px 16px 20px;
-                border-radius: 24px;
+            #recommendationsModal {
+                padding: 10px;
             }
-            .modal-content h2 {
-                font-size: 28px;
-                letter-spacing: 3px;
+
+            .recommendations-luxury-modal {
+                max-height: 96vh;
+                padding: 48px 24px 40px;
+                border-radius: 28px 7px 28px 7px;
             }
-            .modal-content p {
-                font-size: 15px;
-                line-height: 1.8;
+
+            .recommendations-close {
+                width: 40px;
+                height: 40px;
+                margin-top: -34px;
+                margin-right: -14px;
             }
-            .modal-subtitle {
-                font-size: 15px;
-                letter-spacing: 2px;
-                gap: 10px;
-                flex-wrap: wrap;
-                justify-content: center;
+
+            .recommendations-hero {
+                margin-bottom: 46px;
             }
-            .modal-subtitle::before,
-            .modal-subtitle::after {
-                max-width: 30px;
-                flex: 0 0 auto;
+
+            .recommendations-hero h2 {
+                font-size: 3.35rem;
+                letter-spacing: 1px;
             }
-            .luxury-card {
-                padding: 16px 14px;
-                border-radius: 18px;
+
+            .recommendations-hero p {
+                font-size: 1.05rem;
             }
-            .modal-divider .ornament {
-                font-size: 16px;
-                letter-spacing: 6px;
-            }
-            .modal-divider .line {
-                max-width: 40px;
-            }
-            .attire-grid {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-            .attire-column .silhouette svg {
-                width: 50px;
-                height: 100px;
-            }
-            .attire-column .column-title {
-                font-size: 0.95rem;
-            }
-            .attire-column ul li {
-                font-size: 0.82rem;
-                padding: 3px 0;
-            }
-            .color-circle .circle {
-                width: 38px;
-                height: 38px;
-            }
-            .color-circle-group {
+
+            .protocol-heading {
                 gap: 14px;
             }
-            .color-circle .circle-label {
-                font-size: 0.65rem;
-            }
-            .schedule-grid {
-                gap: 3px 12px;
-            }
-            .schedule-grid .time {
-                font-size: 0.85rem;
-            }
-            .schedule-grid .event {
-                font-size: 0.85rem;
-            }
-            .modal-close {
-                top: 12px;
-                right: 14px;
-                width: 36px;
-                height: 36px;
-                font-size: 16px;
-            }
-            .btn-rustic {
-                padding: 8px 16px;
-                font-size: 0.7rem;
-                gap: 8px;
-            }
-            .btn-rustic .icon {
-                font-size: 1rem;
-            }
-            .attire-note {
-                font-size: 0.78rem !important;
-                padding: 10px 12px !important;
-            }
-            #recommendationsModal {
-                padding: 12px;
-            }
-        }
 
-        /* ===== RESPONSIVE GENERAL ===== */
-        @media (max-width: 768px) {
-            .welcome-text .writing-text { font-size: 42px; letter-spacing: 3px; }
-            .initials .writing-text { font-size: 130px; letter-spacing: 14px; }
-            .start-content { gap: 14px; }
-            .invitation-card { padding: 28px 18px 24px; border-radius: 30px 8px 30px 8px; }
-            .invitation-card h2 { font-size: 2.2rem; letter-spacing: 4px; }
-            .invitation-card .names { font-size: 1.6rem; }
-            .invitation-card .description { font-size: 0.9rem; line-height: 1.9; }
-            .invitation-card .description .poetic { font-size: 1.15rem; }
-            .btn { min-width: 150px; height: 56px; padding: 0 20px; font-size: 0.85rem; }
-            .btn .ornament { font-size: 15px; }
-            .button-group { gap: 14px; flex-direction: column; align-items: center; }
-            .click-hint { bottom: 25px; font-size: 0.7rem; padding: 4px 14px; }
-            #videoBackground { filter: blur(18px) brightness(0.6) saturate(1.2); }
+            .protocol-number {
+                min-width: 48px;
+                height: 48px;
+            }
+
+            .protocol-heading h3 {
+                font-size: 2rem;
+            }
+
+            .dress-guidelines {
+                grid-template-columns: 1fr;
+            }
+
+            .silhouettes-image {
+                max-height: 480px;
+            }
+
+            .garden-note {
+                grid-template-columns: 1fr;
+                gap: 8px;
+                padding: 25px 22px;
+            }
+
+            .garden-note-icon {
+                justify-content: flex-start;
+                height: auto;
+            }
+
+            .garden-note-content p {
+                text-align: left;
+            }
+
+            .reserved-row {
+                gap: 24px;
+            }
+
+            .reserved-circle {
+                width: 78px;
+                height: 78px;
+            }
+
+            .reserved-item {
+                min-width: 80px;
+            }
+
+            .reserved-item span {
+                font-size: 1.1rem;
+            }
+
+            .companion-panel {
+                grid-template-columns: 1fr;
+                justify-items: center;
+                padding: 30px 24px;
+            }
+
+            .companion-panel p {
+                text-align: center;
+            }
+
+            .timeline-event {
+                grid-template-columns: 82px 34px 1fr;
+                padding: 12px 6px;
+            }
+
+            .timeline-time strong {
+                font-size: 1.65rem;
+            }
+
+            .timeline-description h4 {
+                font-size: 1.12rem;
+            }
+
+            .royal-separator {
+                margin: 50px 0;
+            }
+
+            .royal-separator b {
+                font-size: 0.8rem;
+                letter-spacing: 3px;
+            }
+
+            .luxury-contact-button {
+                width: 100%;
+                min-height: 64px;
+                padding: 0 18px;
+                font-size: 0.88rem;
+                letter-spacing: 1.4px;
+            }
         }
 
         @media (max-width: 480px) {
-            .welcome-text .writing-text { font-size: 32px; letter-spacing: 2px; }
-            .initials .writing-text { font-size: 100px; letter-spacing: 10px; }
-            .start-content { gap: 10px; }
-            .invitation-card { padding: 20px 12px 18px; max-height: 92vh; border-radius: 24px 6px 24px 6px; }
-            .invitation-card h2 { font-size: 1.8rem; letter-spacing: 2px; }
-            .invitation-card .names { font-size: 1.3rem; }
-            .invitation-card .description { font-size: 0.8rem; line-height: 1.8; }
-            .invitation-card .description .poetic { font-size: 1rem; }
-            .invitation-card .description .signature { font-size: 1.2rem; }
-            .btn { min-width: 130px; height: 48px; padding: 0 16px; font-size: 0.75rem; letter-spacing: 1.5px; }
-            .btn .ornament { font-size: 13px; }
-            .click-hint { bottom: 18px; font-size: 0.6rem; padding: 3px 12px; }
-            #videoBackground { filter: blur(14px) brightness(0.5) saturate(1.1); }
+
+            .recommendations-luxury-modal {
+                padding: 42px 16px 34px;
+            }
+
+            .recommendations-hero h2 {
+                font-size: 2.75rem;
+            }
+
+            .recommendations-overline {
+                letter-spacing: 6px;
+            }
+
+            .protocol-number {
+                display: none;
+            }
+
+            .protocol-heading {
+                text-align: center;
+            }
+
+            .protocol-kicker {
+                font-size: 0.68rem;
+            }
+
+            .protocol-heading h3 {
+                font-size: 1.72rem;
+            }
+
+            .silhouettes-stage {
+                padding-inline: 0;
+            }
+
+            .dress-guideline-card {
+                padding: 25px 19px 21px;
+            }
+
+            .reserved-row {
+                gap: 13px;
+            }
+
+            .reserved-circle {
+                width: 67px;
+                height: 67px;
+                border-width: 2px;
+            }
+
+            .reserved-circle::before {
+                top: 9px;
+                left: 13px;
+                width: 25px;
+                height: 10px;
+            }
+
+            .reserved-item span {
+                font-size: 0.98rem;
+                letter-spacing: 0.6px;
+            }
+
+            .companion-monogram {
+                width: 108px;
+                height: 108px;
+            }
+
+            .companion-panel p {
+                font-size: 1rem;
+            }
+
+            .timeline-event {
+                grid-template-columns: 73px 28px 1fr;
+                min-height: 100px;
+            }
+
+            .timeline-time strong {
+                font-size: 1.42rem;
+            }
+
+            .timeline-description small {
+                font-size: 0.62rem;
+                letter-spacing: 1.6px;
+            }
+
+            .timeline-description h4 {
+                font-size: 1rem;
+            }
+
+            .luxury-contact-section h3 {
+                font-size: 2.35rem;
+            }
+
+            .luxury-contact-button {
+                font-size: 0.78rem;
+                letter-spacing: 1px;
+            }
+
+            .whatsapp-icon {
+                width: 21px;
+                height: 21px;
+            }
         }
     </style>
 </head>
@@ -1214,53 +1814,10 @@
         <!-- Pantalla de inicio -->
         <div id="startScreen">
             <div class="start-content">
-                <div class="welcome-text">
-                    <svg viewBox="0 0 1000 150" preserveAspectRatio="xMidYMid meet">
-                        <defs>
-                            <filter id="goldTexture">
-                                <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="3" seed="8" result="noise"/>
-                                <feDisplacementMap in="SourceGraphic" in2="noise" scale="3"/>
-                            </filter>
-                            <linearGradient id="goldWelcome" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%"   stop-color="#C98A14"/>
-                                <stop offset="8%"   stop-color="#D79A22"/>
-                                <stop offset="16%"  stop-color="#E9B53C"/>
-                                <stop offset="24%"  stop-color="#F7CF6A"/>
-                                <stop offset="32%"  stop-color="#FFF0B8"/>
-                                <stop offset="40%"  stop-color="#FFD86F"/>
-                                <stop offset="48%"  stop-color="#E7B041"/>
-                                <stop offset="56%"  stop-color="#F9D46F"/>
-                                <stop offset="64%"  stop-color="#FFF4C9"/>
-                                <stop offset="72%"  stop-color="#E4A632"/>
-                                <stop offset="80%"  stop-color="#FFD46B"/>
-                                <stop offset="90%"  stop-color="#F4C65C"/>
-                                <stop offset="100%" stop-color="#D89A22"/>
-                            </linearGradient>
-                        </defs>
-                        <text
-                            filter="url(#goldTexture)"
-                            x="500" y="100"
-                            text-anchor="middle"
-                            class="writing-text"
-                            fill="url(#goldWelcome)"
-                            fill-opacity="1"
-                        >Bienvenidos a Nuestra Boda</text>
-                    </svg>
-                </div>
-
-                <div class="initials">
-                    <svg viewBox="0 0 900 220" preserveAspectRatio="xMidYMid meet">
-                        <text
-                            x="450" y="165"
-                            text-anchor="middle"
-                            class="writing-text"
-                            filter="url(#goldTexture)"
-                            fill="url(#goldWelcome)"
-                        >J &amp; V</text>
-                    </svg>
-                </div>
+                <div class="welcome-text">Bienvenidos a Nuestra Boda</div>
+                <div class="initials">J &amp; V</div>
             </div>
-            <div class="click-hint">✦ Toca la Pantalla ✦</div>
+            <div class="click-hint">✦ Haz clic para comenzar ✦</div>
         </div>
 
         <!-- Invitación -->
@@ -1354,175 +1911,392 @@
             </div>
         </div>
 
-        <!-- MODAL RECOMENDACIONES PREMIUM -->
+        <!-- =========================================================
+                    MODAL DE RECOMENDACIONES
+        ========================================================== -->
         <div id="recommendationsModal">
-            <div class="modal-content">
-                <button class="modal-close" id="closeRecommendations">✕</button>
-                <h2>✦ Recomendaciones ✦</h2>
 
-                <div class="modal-divider">
-                    <span class="line"></span>
-                    <span class="ornament">❦ ✦ ❦</span>
-                    <span class="line"></span>
-                </div>
+            <div class="recommendations-luxury-modal">
 
-                <p>
-                    <strong>Queridos(as) invitados(as),</strong> en la celebración de nuestro gran día, agradecemos tomen en cuenta las siguientes recomendaciones y detalles:
-                </p>
+                <!-- Botón cerrar -->
+                <button
+                    type="button"
+                    class="recommendations-close"
+                    id="closeRecommendations"
+                    aria-label="Cerrar recomendaciones">
+                    ×
+                </button>
 
-                <div class="modal-subtitle">Código de Vestimenta</div>
-                <p style="margin-bottom:6px;margin-top:0;"><strong>Etiqueta Formal de Gala</strong></p>
+                <!-- Encabezado principal -->
+                <header class="recommendations-hero">
 
-                <div class="luxury-card">
-                    <div class="attire-grid">
-                        <!-- VARONES -->
-                        <div class="attire-column">
-                            <div class="silhouette">
-                                <svg viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
-                                    <!-- Cabeza -->
-                                    <circle cx="50" cy="25" r="18" fill="none" stroke="#EAC86A" stroke-width="1.5" opacity="0.4"/>
-                                    <!-- Cuerpo - Traje formal -->
-                                    <rect x="30" y="40" width="40" height="55" rx="4" fill="none" stroke="#EAC86A" stroke-width="1.5" opacity="0.4"/>
-                                    <!-- Solapa izquierda -->
-                                    <path d="M30 45 L40 50 L38 75 L30 75 Z" fill="none" stroke="#EAC86A" stroke-width="1" opacity="0.25"/>
-                                    <!-- Solapa derecha -->
-                                    <path d="M70 45 L60 50 L62 75 L70 75 Z" fill="none" stroke="#EAC86A" stroke-width="1" opacity="0.25"/>
-                                    <!-- Corbata -->
-                                    <path d="M48 42 L50 50 L52 42 L50 60 Z" fill="none" stroke="#EAC86A" stroke-width="1.2" opacity="0.5"/>
-                                    <!-- Brazo izquierdo -->
-                                    <path d="M30 50 L15 70 L18 85" fill="none" stroke="#EAC86A" stroke-width="1.2" opacity="0.3"/>
-                                    <!-- Brazo derecho -->
-                                    <path d="M70 50 L85 70 L82 85" fill="none" stroke="#EAC86A" stroke-width="1.2" opacity="0.3"/>
-                                    <!-- Pierna izquierda - Pantalón de tela -->
-                                    <path d="M38 95 L35 145 L42 145 L42 95" fill="none" stroke="#EAC86A" stroke-width="1.5" opacity="0.4"/>
-                                    <!-- Pierna derecha - Pantalón de tela -->
-                                    <path d="M62 95 L65 145 L58 145 L58 95" fill="none" stroke="#EAC86A" stroke-width="1.5" opacity="0.4"/>
-                                    <!-- Zapatos -->
-                                    <path d="M32 145 L38 148 L42 145" fill="none" stroke="#EAC86A" stroke-width="1.5" opacity="0.4"/>
-                                    <path d="M58 145 L62 148 L68 145" fill="none" stroke="#EAC86A" stroke-width="1.5" opacity="0.4"/>
-                                </svg>
-                            </div>
-                            <div class="column-title">Varones</div>
-                            <ul>
-                                <li>Traje formal de gala</li>
-                                <li>Camisa (con o sin corbata)</li>
-                                <li>Pantalón de tela</li>
-                                <li>Zapatos de Vestir</li>
-                            </ul>
+                    <div class="recommendations-overline">❦ ✦ ❦</div>
+
+                    <h2>Recomendaciones</h2>
+
+                    <div class="recommendations-ornament">
+                        <span></span>
+                        <b>✦</b>
+                        <span></span>
+                    </div>
+
+                    <p>
+                        <strong>Queridos(as) invitados(as),</strong> en la celebración de
+                        nuestro gran día, agradecemos tomen en cuenta las siguientes
+                        recomendaciones y detalles:
+                    </p>
+
+                </header>
+
+                <!-- =====================================================
+                                CÓDIGO DE VESTIMENTA
+                ====================================================== -->
+                <section class="protocol-section dress-code-section">
+
+                    <div class="protocol-heading">
+
+                        <span class="protocol-number">01</span>
+
+                        <div>
+                            <p class="protocol-kicker">Código de Vestimenta</p>
+                            <h3>Etiqueta Formal de Gala</h3>
                         </div>
 
-                        <!-- MUJERES -->
-                        <div class="attire-column">
-                            <div class="silhouette">
-                                <svg viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
-                                    <!-- Cabeza -->
-                                    <circle cx="50" cy="25" r="18" fill="none" stroke="#EAC86A" stroke-width="1.5" opacity="0.4"/>
-                                    <!-- Cabello recogido -->
-                                    <path d="M32 22 Q50 8 68 22" fill="none" stroke="#EAC86A" stroke-width="1.2" opacity="0.3"/>
-                                    <!-- Cuerpo - Vestido de gala -->
-                                    <rect x="30" y="40" width="40" height="45" rx="4" fill="none" stroke="#EAC86A" stroke-width="1.5" opacity="0.4"/>
-                                    <!-- Escote en V -->
-                                    <path d="M40 40 L50 50 L60 40" fill="none" stroke="#EAC86A" stroke-width="1" opacity="0.3"/>
-                                    <!-- Detalle de cintura -->
-                                    <path d="M32 70 L68 70" fill="none" stroke="#EAC86A" stroke-width="0.8" opacity="0.2" stroke-dasharray="3"/>
-                                    <!-- Falda larga (vestido de gala) -->
-                                    <path d="M28 85 L20 145 L35 148 L50 150 L65 148 L80 145 L72 85" fill="none" stroke="#EAC86A" stroke-width="1.5" opacity="0.4"/>
-                                    <!-- Brazo izquierdo -->
-                                    <path d="M30 50 L18 65 L20 80" fill="none" stroke="#EAC86A" stroke-width="1.2" opacity="0.3"/>
-                                    <!-- Brazo derecho -->
-                                    <path d="M70 50 L82 65 L80 80" fill="none" stroke="#EAC86A" stroke-width="1.2" opacity="0.3"/>
-                                    <!-- Tacones -->
-                                    <path d="M35 148 L30 152 L38 152" fill="none" stroke="#EAC86A" stroke-width="1.5" opacity="0.4"/>
-                                    <path d="M65 148 L70 152 L62 152" fill="none" stroke="#EAC86A" stroke-width="1.5" opacity="0.4"/>
-                                    <!-- Detalle de tacón -->
-                                    <path d="M30 152 L30 156" fill="none" stroke="#EAC86A" stroke-width="1" opacity="0.3"/>
-                                    <path d="M70 152 L70 156" fill="none" stroke="#EAC86A" stroke-width="1" opacity="0.3"/>
-                                </svg>
+                    </div>
+
+                    <!-- Imagen principal -->
+                    <figure class="silhouettes-stage">
+
+                        <div class="silhouettes-glow"></div>
+
+                        <img
+                            src="./Siluetas.png"
+                            alt="Varón y mujer con vestimenta formal de gala"
+                            class="silhouettes-image"
+                            loading="lazy">
+
+                        <figcaption>
+                            Una ocasión especial merece una presentación elegante.
+                        </figcaption>
+
+                    </figure>
+
+                    <!-- Vestimenta varones y mujeres -->
+                    <div class="dress-guidelines">
+
+                        <!-- Varones -->
+                        <article class="dress-guideline-card">
+
+                            <div class="dress-card-heading">
+                                <span class="dress-card-symbol">V</span>
+
+                                <div>
+                                    <small>Etiqueta masculina</small>
+                                    <h4>Varones</h4>
+                                </div>
                             </div>
-                            <div class="column-title">Mujeres</div>
-                            <ul>
-                                <li>Vestido de gala</li>
-                                <li>Vestido largo o de coctel</li>
-                                <li>Calzados de vestir</li>
-                                <li>o Tacones</li>
+
+                            <ul class="luxury-detail-list">
+                                <li>
+                                    <span class="list-mark">✦</span>
+                                    <span>Traje formal de gala</span>
+                                </li>
+
+                                <li>
+                                    <span class="list-mark">✦</span>
+                                    <span>Camisa, con o sin corbata</span>
+                                </li>
+
+                                <li>
+                                    <span class="list-mark">✦</span>
+                                    <span>Pantalón de tela</span>
+                                </li>
+
+                                <li>
+                                    <span class="list-mark">✦</span>
+                                    <span>Zapatos de vestir</span>
+                                </li>
                             </ul>
+
+                        </article>
+
+                        <!-- Mujeres -->
+                        <article class="dress-guideline-card">
+
+                            <div class="dress-card-heading">
+                                <span class="dress-card-symbol">M</span>
+
+                                <div>
+                                    <small>Etiqueta femenina</small>
+                                    <h4>Mujeres</h4>
+                                </div>
+                            </div>
+
+                            <ul class="luxury-detail-list">
+                                <li>
+                                    <span class="list-mark">✦</span>
+                                    <span>Vestido de gala</span>
+                                </li>
+
+                                <li>
+                                    <span class="list-mark">✦</span>
+                                    <span>Vestido largo o de cóctel</span>
+                                </li>
+
+                                <li>
+                                    <span class="list-mark">✦</span>
+                                    <span>Calzado de vestir o tacones</span>
+                                </li>
+
+                                <li>
+                                    <span class="list-mark">✦</span>
+                                    <span>Accesorios elegantes y discretos</span>
+                                </li>
+                            </ul>
+
+                        </article>
+
+                    </div>
+
+                    <!-- Nota importante -->
+                    <aside class="garden-note">
+
+                        <div class="garden-note-icon">❦</div>
+
+                        <div class="garden-note-content">
+
+                            <span>Nota importante</span>
+
+                            <p>
+                                El lugar es al aire libre dentro del jardín. Se recomienda
+                                a los varones portar un saco o abrigo para la noche.
+                                Para las mujeres, sugerimos evitar tacones con punta de
+                                aguja que puedan resultar incómodos sobre el suelo del
+                                jardín; de igual manera, recomendamos portar un saco o
+                                abrigo para disfrutar cómodamente de toda la velada.
+                            </p>
+
                         </div>
+
+                    </aside>
+
+                </section>
+
+                <div class="royal-separator" aria-hidden="true">
+                    <span></span>
+                    <b>❦ ✦ ❦</b>
+                    <span></span>
+                </div>
+
+                <!-- =====================================================
+                                COLORES RESERVADOS
+                ====================================================== -->
+                <section class="protocol-section colors-section">
+
+                    <div class="protocol-heading">
+
+                        <span class="protocol-number">02</span>
+
+                        <div>
+                            <p class="protocol-kicker">Paleta de la celebración</p>
+                            <h3>Colores Reservados</h3>
+                        </div>
+
                     </div>
-                </div>
 
-                <p class="attire-note">
-                    <strong>Nota:</strong> el lugar es al aire libre dentro del jardín, se recomienda: a los varones portar un saco o abrigo para la noche, para las mujeres no portar tacones con punta de aguja que puedan incomodarles con el suelo, de igual manera portar saco o abrigo.
-                </p>
+                    <!-- Mantiene el diseño de círculos y descripciones -->
+                    <div class="reserved-row">
 
-                <div class="modal-divider">
-                    <span class="line"></span>
-                    <span class="ornament">❦ ✦ ❦</span>
-                    <span class="line"></span>
-                </div>
+                        <div class="reserved-item">
+                            <div class="reserved-circle burgundy-circle"></div>
+                            <span>Borgoña</span>
+                        </div>
 
-                <div class="modal-subtitle">Colores Reservados</div>
-                <div class="color-circle-group">
-                    <div class="color-circle">
-                        <div class="circle" style="background:#47040d;border-color:#540711;"></div>
-                        <span class="circle-label">Vino Tinto</span>
+                        <div class="reserved-item">
+                            <div class="reserved-circle white-circle"></div>
+                            <span>Blanco</span>
+                        </div>
+
+                        <div class="reserved-item">
+                            <div class="reserved-circle gold-circle"></div>
+                            <span>Dorado</span>
+                        </div>
+
                     </div>
-                    <div class="color-circle">
-                        <div class="circle" style="background:#cc9124;border-color:#D49D36;"></div>
-                        <span class="circle-label">Dorado</span>
+
+                </section>
+
+                <div class="royal-separator" aria-hidden="true">
+                    <span></span>
+                    <b>❦ ✦ ❦</b>
+                    <span></span>
+                </div>
+
+                <!-- =====================================================
+                                    ACOMPAÑAMIENTOS
+                ====================================================== -->
+                <section class="protocol-section companion-section">
+
+                    <div class="protocol-heading">
+
+                        <span class="protocol-number">03</span>
+
+                        <div>
+                            <p class="protocol-kicker">Información para invitados</p>
+                            <h3>Acompañamientos</h3>
+                        </div>
+
                     </div>
-                    <div class="color-circle">
-                        <div class="circle" style="background:#FFFFFF;border-color:#FFFFFF;box-shadow:0 4px 15px rgba(0,0,0,0.2);"></div>
-                        <span class="circle-label">Blanco</span>
+
+                    <div class="companion-panel">
+
+                        <div class="companion-monogram">
+                            <span>1</span>
+                            <small>Acompañante</small>
+                        </div>
+
+                        <p>
+                            Su presencia será uno de los recuerdos más preciados que
+                            atesoraremos de este día. Por ello, hemos reservado un lugar
+                            para ti y un acompañante
+                            <strong>(máximo 1 acompañante)</strong>; agradecemos tener
+                            presente que esta celebración ha sido organizada
+                            <strong>exclusivamente para adultos.</strong>
+                        </p>
+
                     </div>
+
+                </section>
+
+                <div class="royal-separator" aria-hidden="true">
+                    <span></span>
+                    <b>❦ ✦ ❦</b>
+                    <span></span>
                 </div>
 
-                <div class="modal-divider">
-                    <span class="line"></span>
-                    <span class="ornament">❦ ✦ ❦</span>
-                    <span class="line"></span>
-                </div>
+                <!-- =====================================================
+                                HORARIO DEL EVENTO
+                ====================================================== -->
+                <section class="protocol-section schedule-section">
 
-                <div class="modal-subtitle">Acompañamientos</div>
-                <p style="margin-top:0;">Su presencia será uno de los recuerdos más preciados que atesoraremos de este día. Por ello, hemos reservado un lugar para ti y un acompañante (máximo 1 acompañante); agradecemos tener presente que esta celebración ha sido organizada exclusivamente para adultos.</p>
+                    <div class="protocol-heading">
 
-                <div class="modal-divider">
-                    <span class="line"></span>
-                    <span class="ornament">❦ ✦ ❦</span>
-                    <span class="line"></span>
-                </div>
+                        <span class="protocol-number">04</span>
 
-                <div class="modal-subtitle">Horario del Evento</div>
-                <p style="margin-top:0;margin-bottom:6px;"><strong>Toda la celebración se realizará en la Hacienda Santa María</strong></p>
+                        <div>
+                            <p class="protocol-kicker">Programa de la celebración</p>
+                            <h3>Horario del Evento</h3>
+                        </div>
 
-                <div class="luxury-card">
-                    <div class="schedule-grid">
-                        <span class="time">14:30 p.m.</span>
-                        <span class="event">Celebración de la Boda Religiosa</span>
-                        <span class="time">17:00 p.m.</span>
-                        <span class="event">Inicio y Recepción del Evento</span>
-                        <span class="time">24:00 p.m.</span>
-                        <span class="event">Finalización del Evento</span>
                     </div>
+
+                    <p class="schedule-location">
+                        Toda la celebración se realizará en la
+                        <strong>Hacienda Santa María</strong>
+                    </p>
+
+                    <div class="event-timeline">
+
+                        <article class="timeline-event">
+
+                            <div class="timeline-time">
+                                <strong>14:30</strong>
+                                <span>p.m.</span>
+                            </div>
+
+                            <div class="timeline-line">
+                                <span></span>
+                            </div>
+
+                            <div class="timeline-description">
+                                <small>Ceremonia</small>
+                                <h4>Celebración de la Boda Religiosa</h4>
+                            </div>
+
+                        </article>
+
+                        <article class="timeline-event">
+
+                            <div class="timeline-time">
+                                <strong>17:00</strong>
+                                <span>p.m.</span>
+                            </div>
+
+                            <div class="timeline-line">
+                                <span></span>
+                            </div>
+
+                            <div class="timeline-description">
+                                <small>Recepción</small>
+                                <h4>Inicio y Recepción del Evento</h4>
+                            </div>
+
+                        </article>
+
+                        <article class="timeline-event">
+
+                            <div class="timeline-time">
+                                <strong>24:00</strong>
+                                <span>p.m.</span>
+                            </div>
+
+                            <div class="timeline-line">
+                                <span></span>
+                            </div>
+
+                            <div class="timeline-description">
+                                <small>Cierre</small>
+                                <h4>Finalización del Evento</h4>
+                            </div>
+
+                        </article>
+
+                    </div>
+
+                </section>
+
+                <div class="royal-separator" aria-hidden="true">
+                    <span></span>
+                    <b>❦ ✦ ❦</b>
+                    <span></span>
                 </div>
 
-                <div class="modal-divider">
-                    <span class="line"></span>
-                    <span class="ornament">❦ ✦ ❦</span>
-                    <span class="line"></span>
-                </div>
+                <!-- =====================================================
+                                CONTACTO CON LOS NOVIOS
+                ====================================================== -->
+                <footer class="luxury-contact-section">
 
-                <!-- CONTACTO -->
-                <div class="contact-wrapper">
-                    <div class="modal-subtitle">Para cualquier consulta</div>
-                    <a href="https://wa.me/59175965657"
+                    <p>Para cualquier consulta</p>
+
+                    <div class="contact-heart">❤</div>
+
+                    <h3>Contactar con los Novios</h3>
+
+                    <a
+                        href="https://wa.me/59175965657"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="btn-rustic">
-                        <span class="icon">❤</span>
+                        class="luxury-contact-button">
+
+                        <span class="contact-button-glow"></span>
+
+                        <svg
+                            class="whatsapp-icon"
+                            viewBox="0 0 32 32"
+                            aria-hidden="true">
+                            <path d="M16.04 3C9.42 3 4.03 8.3 4.03 14.82c0 2.33.69 4.61 1.99 6.55L3.9 29l7.87-2.04a12.1 12.1 0 0 0 4.27.78h.01c6.62 0 12.01-5.3 12.01-11.82C28.06 9.3 22.67 3 16.04 3Zm0 22.73h-.01a10.02 10.02 0 0 1-3.84-.76l-.55-.23-4.67 1.21 1.25-4.49-.26-.58a9.72 9.72 0 0 1-1.01-4.33c0-5.36 4.45-9.72 9.92-9.72 2.65 0 5.14 1.01 7.01 2.84a9.57 9.57 0 0 1 2.91 6.88c0 5.36-4.45 9.72-9.92 9.72Zm5.45-7.29c-.3-.15-1.77-.86-2.04-.96-.27-.1-.47-.15-.67.15-.2.29-.77.96-.94 1.16-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.46a9 9 0 0 1-1.66-2.03c-.17-.3-.02-.46.13-.61.13-.13.3-.34.45-.51.15-.17.2-.29.3-.49.1-.2.05-.37-.02-.51-.08-.15-.67-1.58-.92-2.17-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.36-.27.29-1.04 1-1.04 2.43s1.07 2.82 1.22 3.02c.15.2 2.1 3.15 5.09 4.42.71.3 1.27.49 1.7.62.72.22 1.37.19 1.88.12.57-.08 1.77-.71 2.02-1.4.25-.69.25-1.28.17-1.4-.07-.12-.27-.2-.57-.34Z"/>
+                        </svg>
+
                         <span>Contactar con los Novios</span>
+
+                        <span class="contact-arrow">›</span>
+
                     </a>
-                </div>
+
+                </footer>
+
             </div>
+
         </div>
 
     </div>
@@ -1531,12 +2305,14 @@
         (function() {
             'use strict';
 
+            // ===== REFERENCIAS =====
             const startScreen = document.getElementById('startScreen');
             const video = document.getElementById('weddingVideo');
             const bgVideo = document.getElementById('bgVideo');
             const invitationOverlay = document.getElementById('invitationOverlay');
             const recommendationsModal = document.getElementById('recommendationsModal');
 
+            // ===== CONFIGURACIÓN =====
             const VIDEO_URL = 'video-boda.mp4';
             const INTRO_MUSIC_URL = 'musica inicio.mp3';
             const MAIN_MUSIC_URL = 'musica-boda.mp3';
@@ -1545,6 +2321,7 @@
             const MUSIC_START_TIME = 13.17;
             const LOOP_DURATION = 3.8;
 
+            // ===== ESTADO =====
             let musicAudio = null;
             let isMusicPlaying = false;
             let videoLoaded = false;
@@ -1557,6 +2334,7 @@
             let introMusicStarted = false;
             let firstFrameDisplayed = false;
 
+            // ===== BUCLE =====
             function startLoop() {
                 if (rafId) return;
                 const duration = video.duration;
@@ -1588,6 +2366,7 @@
                 }
             }
 
+            // ===== PRIMER FRAME =====
             function showFirstFrame() {
                 if (firstFrameDisplayed) return;
                 video.currentTime = 0;
@@ -1606,6 +2385,7 @@
                 });
             }
 
+            // ===== MÚSICA =====
             function preloadIntroMusic() {
                 if (isIntroMusicPlaying) return;
                 try {
@@ -1644,6 +2424,7 @@
                 } catch (e) { /* ignore */ }
             }
 
+            // ===== INICIAR VIDEO =====
             function startVideo() {
                 if (videoStarted) return;
                 videoStarted = true;
@@ -1669,6 +2450,7 @@
                 }
             }
 
+            // ===== CONFIGURAR VIDEOS =====
             function setupVideos() {
                 if (videoLoaded) return;
                 video.src = VIDEO_URL;
@@ -1724,6 +2506,7 @@
                 }, 3000);
             }
 
+            // ===== EVENTOS =====
             startScreen.addEventListener('click', function() {
                 const startContent = document.querySelector('.start-content');
                 startContent.classList.add('fade-out');
@@ -1739,6 +2522,7 @@
                 }
             });
 
+            // ===== AÑADIR AL CALENDARIO =====
             document.getElementById('addToCalendar').addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -1795,24 +2579,20 @@
                 }
             });
 
+            // ===== RECOMENDACIONES =====
             document.getElementById('openRecommendations').addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 recommendationsModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
             });
-
-            function closeRecommendations() {
+            document.getElementById('closeRecommendations').addEventListener('click', function() {
                 recommendationsModal.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-
-            document.getElementById('closeRecommendations').addEventListener('click', closeRecommendations);
+            });
             recommendationsModal.addEventListener('click', function(e) {
-                if (e.target === this) closeRecommendations();
+                if (e.target === this) this.classList.remove('active');
             });
 
-            // ===== CONTADOR REGRESIVO (UTC-4) =====
+            // ===== CONTADOR REGRESIVO =====
             const weddingDate = new Date('2026-09-12T14:30:00-04:00').getTime();
 
             function updateCountdown() {
@@ -1837,6 +2617,7 @@
             updateCountdown();
             setInterval(updateCountdown, 1000);
 
+            // ===== INICIO =====
             setupVideos();
 
         })();
