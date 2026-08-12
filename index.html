@@ -70,6 +70,37 @@
             100% { filter: brightness(1) saturate(1); }
         }
 
+        @keyframes royalGoldShimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes bevelSpark {
+            0%, 18% { background-position: 180% 50%; }
+            52%, 100% { background-position: -80% 50%; }
+        }
+
+        @keyframes goldBreath {
+            0%, 100% {
+                filter:
+                    saturate(1.14)
+                    contrast(1.1)
+                    drop-shadow(0 2px 1px rgba(255, 211, 67, 0.55))
+                    drop-shadow(0 8px 6px rgba(82, 35, 0, 0.64))
+                    drop-shadow(0 18px 22px rgba(0, 0, 0, 0.78))
+                    drop-shadow(0 0 11px rgba(255, 174, 18, 0.3));
+            }
+            50% {
+                filter:
+                    saturate(1.24)
+                    contrast(1.13)
+                    drop-shadow(0 2px 1px rgba(255, 221, 85, 0.68))
+                    drop-shadow(0 9px 7px rgba(82, 35, 0, 0.7))
+                    drop-shadow(0 20px 25px rgba(0, 0, 0, 0.82))
+                    drop-shadow(0 0 17px rgba(255, 187, 28, 0.48));
+            }
+        }
+
         @keyframes mobileModal {
             0% { transform: translateY(100%); opacity: 0; }
             100% { transform: translateY(0); opacity: 1; }
@@ -155,7 +186,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 10px;
+            perspective: 900px;
         }
         .start-content.fade-out .welcome-text,
         .start-content.fade-out .initials,
@@ -181,11 +213,11 @@
             left: 50%;
             transform: translate(-50%, -50%);
             width: 140%;
-            height: 100%;
-            background: radial-gradient(ellipse at 50% 40%, 
-                rgba(255, 200, 80, 0.06) 0%,
-                rgba(255, 180, 50, 0.03) 30%,
-                rgba(255, 160, 30, 0.01) 60%,
+            height: 112%;
+            background: radial-gradient(ellipse at 50% 40%,
+                rgba(255, 203, 65, 0.18) 0%,
+                rgba(222, 133, 8, 0.07) 32%,
+                rgba(118, 48, 0, 0.022) 58%,
                 transparent 80%);
             pointer-events: none;
             z-index: 0;
@@ -200,66 +232,229 @@
         .welcome-text {
             position: relative;
             display: inline-block;
-            font-family: 'Papillion', 'Great Vibes', cursive;
-            font-size: clamp(22px, 7vw, 65px);
+            isolation: isolate;
+            font-family: 'Papillion', 'Great Vibes', cursive !important;
+            font-size: clamp(31px, 6.1vw, 62px);
+            font-weight: 400;
             font-style: italic;
-            letter-spacing: 3px;
-            line-height: 2.1;
+            letter-spacing: 1.1px;
+            line-height: 3.20;
             color: transparent;
-            background: linear-gradient(100deg,
-                #3a1a00 0%, #6a3b00 6%, #925900 11%, #b77900 16%,
-                #d89b00 23%, #ffc800 31%, #fff0a5 37%, #ffffff 41%,
-                #fff4b0 45%, #ffd44b 50%, #c98d00 58%, #8d5300 68%,
-                #5b3100 78%, #d49a00 88%, #fff2b0 96%, #d18b00 100%);
-            background-size: 350% 100%;
-            background-position: center;
+            background-image: linear-gradient(112deg,
+                #4a1d00 0%,
+                #8c4900 7%,
+                #c77d00 14%,
+                #f2b927 21%,
+                #ffdc69 27%,
+                #d18a00 34%,
+                #713200 42%,
+                #bc7000 48%,
+                #f0b51f 55%,
+                #ffd65a 61%,
+                #a95a00 69%,
+                #552000 76%,
+                #bb6d00 85%,
+                #f5bd2f 93%,
+                #743300 100%);
+            background-size: 250% 100%;
+            background-position: 0% 50%;
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: moltenGold 8s linear infinite, glow 5s ease-in-out infinite;
-            text-shadow: 0 1px 0 rgba(255,210,60,.55),
-                0 -1px 0 rgba(255,255,255,.55),
-                0 2px 2px rgba(255,220,80,.70),
-                1px 2px 0 rgba(170,110,0,.50),
-                2px 3px 0 rgba(140,85,0,.50),
-                4px 5px 8px rgba(80,40,0,.35),
-                0 10px 18px rgba(0,0,0,.35),
-                0 18px 40px rgba(0,0,0,.28),
-                0 0 18px rgba(255,210,60,.55);
-            filter: drop-shadow(0 0 8px rgba(255,220,90,.45)) drop-shadow(0 6px 16px rgba(0,0,0,.35));
+            -webkit-text-stroke: 0.75px rgba(222, 145, 5, 0.95);
+            paint-order: stroke fill;
+            text-shadow:
+                -1.4px -1.4px 0 #e9b10b,
+                -0.6px -0.6px 0 #f2ad17,
+                1px 1px 0 #a45d00,
+                2px 2px 0 #884900,
+                3px 3px 0 #6c3600,
+                4px 4px 0 #522500,
+                5px 6px 4px rgba(32, 11, 0, 0.88),
+                0 15px 20px rgba(0, 0, 0, 0.82),
+                0 0 11px rgba(255, 176, 22, 0.42);
+            animation:
+                royalGoldShimmer 8s ease-in-out infinite,
+                goldBreath 4.6s ease-in-out infinite;
+            transform: translateZ(18px);
+            transform-style: preserve-3d;
+            will-change: filter, background-position;
+            text-rendering: geometricPrecision;
+        }
+
+        .welcome-text::before,
+        .initials::before {
+            content: attr(data-text);
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            color: transparent;
+            background: linear-gradient(112deg,
+                transparent 0%,
+                transparent 35%,
+                rgba(255, 194, 28, 0.08) 42%,
+                rgba(211, 170, 5, 0.82) 49%,
+                rgba(255, 177, 10, 0.2) 56%,
+                transparent 65%,
+                transparent 100%);
+            background-size: 270% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -webkit-text-stroke: 0.7px rgba(255, 204, 59, 0.72);
+            text-shadow:
+                -1px -1px 0 rgba(255, 211, 66, 0.86),
+                1px 1px 0 rgba(105, 43, 0, 0.82),
+                0 0 3px rgba(255, 194, 42, 0.62);
+            pointer-events: none;
+            opacity: 0.82;
+            animation: bevelSpark 5.4s cubic-bezier(.35, 0, .25, 1) infinite;
+        }
+
+        .welcome-text::after,
+        .initials::after {
+            content: attr(data-text);
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            color: #815000;
+            -webkit-text-fill-color: #815000;
+            -webkit-text-stroke: 1px #b87500;
+            text-shadow:
+                1px 1px 0 #704000,
+                2px 2px 0 #5d3100,
+                3px 3px 0 #4a2300,
+                4px 4px 0 #381700,
+                5px 6px 4px rgba(14, 3, 0, 0.92),
+                9px 12px 12px rgba(0, 0, 0, 0.72);
+            transform: translate(3px, 4px) translateZ(-14px);
+            pointer-events: none;
         }
 
         .initials {
             position: relative;
             display: inline-block;
-            font-family: 'Papillion', 'Great Vibes', cursive;
-            font-size: clamp(50px, 14vw, 75px);
-            line-height: 1;
-            letter-spacing: 10px;
+            isolation: isolate;
+            font-family: 'Papillion', 'Great Vibes', cursive !important;
+            font-size: clamp(68px, 13vw, 82px);
+            font-weight: 400;
+            font-style: italic;
+            line-height: 1.02;
+            letter-spacing: 8px;
             color: transparent;
-            background: linear-gradient(95deg,
-                #2d1400 0%, #4e2900 4%, #7a4600 8%, #a86400 13%,
-                #cf8c00 20%, #f0b900 28%, #ffe175 35%, #ffffff 40%,
-                #fff7c8 45%, #ffd84c 52%, #d39700 60%, #9a5d00 70%,
-                #693700 80%, #c88b00 90%, #fff0aa 100%);
-            background-size: 450% 100%;
-            background-position: center;
+            background-image: linear-gradient(110deg,
+                #3f1600 0%,
+                #814000 7%,
+                #bd7200 14%,
+                #efb01d 21%,
+                #ffdb62 27%,
+                #cc8000 34%,
+                #642800 42%,
+                #b36500 49%,
+                #edac17 55%,
+                #ffd354 62%,
+                #a65300 70%,
+                #491900 77%,
+                #b66400 86%,
+                #f0af20 94%,
+                #682900 100%);
+            background-size: 260% 100%;
+            background-position: 0% 50%;
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: moltenGold 7s linear infinite, glow 4s ease-in-out infinite;
-            text-shadow: 0 1px 0 rgba(255,215,80,.70),
-                0 -1px 0 rgba(255,215,80,.70),
-                0 0 3px rgba(252, 252, 252, 0.9),
-                2px 2px 0 rgba(190,120,0,.45),
-                4px 4px 0 rgba(140,80,0,.40),
-                6px 6px 10px rgba(90,45,0,.35),
-                0 15px 25px rgba(0,0,0,.40),
-                0 25px 50px rgba(0,0,0,.35),
-                0 0 20px rgba(255,215,80,.70);
-            filter: drop-shadow(0 0 8px rgba(255,225,120,.70))
-                drop-shadow(0 0 18px rgba(255,195,50,.45))
-                drop-shadow(0 10px 22px rgba(0,0,0,.40));
+            -webkit-text-stroke: 0.9px rgba(221, 139, 0, 0.98);
+            paint-order: stroke fill;
+            text-shadow:
+                -1.6px -1.6px 0 #ffd657,
+                -0.7px -0.7px 0 #eda810,
+                1px 1px 0 #a05a00,
+                2px 2px 0 #834500,
+                3px 3px 0 #683300,
+                4px 4px 0 #4e2100,
+                5px 6px 4px rgba(27, 8, 0, 0.94),
+                0 19px 24px rgba(0, 0, 0, 0.88),
+                0 0 14px rgba(255, 170, 12, 0.5);
+            animation:
+                royalGoldShimmer 7s ease-in-out infinite reverse,
+                goldBreath 4s ease-in-out infinite;
+            transform: translateZ(24px);
+            transform-style: preserve-3d;
+            will-change: filter, background-position;
+            text-rendering: geometricPrecision;
+        }
+
+        .initials::before {
+            -webkit-text-stroke-width: 0.9px;
+            text-shadow:
+                -1.2px -1.2px 0 rgba(255, 209, 55, 0.92),
+                1.2px 1.2px 0 rgba(84, 30, 0, 0.9),
+                0 0 4px rgba(255, 190, 27, 0.7);
+        }
+
+        .initials::after {
+            transform: translate(4px, 6px) translateZ(-18px);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .welcome-text,
+            .initials {
+                animation: none;
+                background-position: 50% 50%;
+            }
+
+            .welcome-text::before,
+            .initials::before {
+                animation: none;
+                background-position: 50% 50%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #startScreen {
+                padding-top: env(safe-area-inset-top);
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+
+            .start-content {
+                width: 94%;
+                max-width: 94%;
+                gap: 8px;
+                padding: 14px 8px;
+                transform: translateY(-2vh);
+            }
+
+            .welcome-text {
+                max-width: 92vw;
+                font-size: clamp(26px, 7.7vw, 34px);
+                line-height: 1.18;
+                letter-spacing: 0.25px;
+                transform: translateZ(10px);
+            }
+
+            .initials {
+                font-size: clamp(60px, 18vw, 78px);
+                letter-spacing: 5px;
+                transform: translateZ(14px);
+            }
+
+            .welcome-text::after,
+            .initials::after {
+                transform: translate(2px, 3px) translateZ(-9px);
+                text-shadow:
+                    1px 1px 0 #704000,
+                    2px 2px 0 #563000,
+                    3px 4px 4px rgba(14, 3, 0, 0.9),
+                    6px 8px 9px rgba(0, 0, 0, 0.66);
+            }
+
+            .click-hint {
+                bottom: calc(22px + env(safe-area-inset-bottom));
+                max-width: 88vw;
+                padding: 7px 14px;
+                font-size: 0.66rem;
+                letter-spacing: 2.4px;
+            }
         }
 
         .click-hint {
@@ -1814,8 +2009,8 @@
         <!-- Pantalla de inicio -->
         <div id="startScreen">
             <div class="start-content">
-                <div class="welcome-text">Bienvenidos a Nuestra Boda</div>
-                <div class="initials">J &amp; V</div>
+                <div class="welcome-text" data-text="Bienvenidos a Nuestra Boda">Bienvenidos a Nuestra Boda</div>
+                <div class="initials" data-text="J &amp; V">J &amp; V</div>
             </div>
             <div class="click-hint">✦ Haz clic para comenzar ✦</div>
         </div>
